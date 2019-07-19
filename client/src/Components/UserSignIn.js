@@ -71,6 +71,8 @@ export default class UserSignIn extends Component {
   submit = () => {
     // {/* initialize context variable containing the context props  */}
     const { context } = this.props;
+    // The from property is set to the location property set in the PrivateRoute Component
+    const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
     // unpack username and properties password from state
     const { emailAddress, password } = this.state;
 
@@ -84,7 +86,7 @@ export default class UserSignIn extends Component {
             return { errors: [ 'Sign-in was unsuccessful' ] };
           });
         } else {
-          this.props.history.push('/authenticated');
+          this.props.history.push(from);
           console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }
       })

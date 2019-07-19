@@ -52,6 +52,7 @@ export default class App extends Component {
           {/* <Route exact path="/" render={ () => <Redirect to="/courses/" /> } /> */}
           <Route exact path="/" component={Public} />
           <PrivateRoute path="/authenticated" component={AuthWithContext} />
+          <PrivateRoute path="/settings" component={AuthWithContext} />
           {/* <Route exact path="/" component={Courses} /> */}
           <Route path="/courses" component={Courses} />
           <Route path="/signin" component={UserSignInWithContext} />
