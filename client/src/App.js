@@ -17,23 +17,24 @@ import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
 import Authenticated from './Components/Authenticated';
+import Public from './Components/Public';
 
-// Connect the component to contex
+// Connect the App Component to Context
 import withContext from './Components/Context';
+// Import the PrivateRoute Component
+import PrivateRoute from './PrivateRoute';
+
 
 // Initialize a variable named UserSignUpWithContext. 
 // Set the value to call withContext(UserSignUp):
 // This connects the UserSignUp component to context. In other words,
 // UserSignUp is now a consuming component that's subscribed to all context changes.
 const HeaderWithContext = withContext(Header);
+const AuthWithContext = withContext(Authenticated);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
 const errorFormWithContext = withContext(NotFound);
-
-// {/* <Route render={ () => <HeaderWithContext /> } /> */}
-// {/* <Header /> */}
-
-// {/* <Route path="/" render={ ({match}) => <Header match={match} /> }/> */}
 
 export default class App extends Component {
   // Constructor initializes state //
@@ -48,12 +49,14 @@ export default class App extends Component {
         <HeaderWithContext />
         {/* <Route path="/" render={ ({match}) => <HeaderWithContext match={match} /> }/> */}
         <Switch>
-          <Route exact path="/" render={ () => <Redirect to="/courses/" /> } />
-          <Route exact path="/courses" component={Courses} />
-          <Route exact path="/courses/signin/" component={UserSignInWithContext} />
-          <Route path="/courses/signup" component={UserSignUpWithContext} />
-          <Route exact path="/courses/signout/" component={UserSignOut} />
-          <Route path="/authenticated" component={Authenticated} /> 
+          {/* <Route exact path="/" render={ () => <Redirect to="/courses/" /> } /> */}
+          <Route exact path="/" component={Public} />
+          <PrivateRoute path="/authenticated" component={AuthWithContext} />
+          {/* <Route exact path="/" component={Courses} /> */}
+          <Route path="/courses" component={Courses} />
+          <Route path="/signin" component={UserSignInWithContext} />
+          <Route path="/signup" component={UserSignUpWithContext} />
+          <Route path="/signout" component={UserSignOutWithContext} />
           <Route path="/courses/:id" render={ ({match}) => <CourseDetail title={'About'} match={match}/> } />
           <Route component={errorFormWithContext}/>
           {/* <Route component={NotFound}/> */}
