@@ -35,6 +35,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const errorFormWithContext = withContext(NotFound);
+const CoursesWithContext = withContext(Courses);
 
 export default class App extends Component {
   // Constructor initializes state //
@@ -54,7 +55,7 @@ export default class App extends Component {
           <PrivateRoute path="/authenticated" component={AuthWithContext} />
           <PrivateRoute path="/settings" component={AuthWithContext} />
           {/* <Route exact path="/" component={Courses} /> */}
-          <Route path="/courses" component={Courses} />
+          <Route exact path="/courses" component={CoursesWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />

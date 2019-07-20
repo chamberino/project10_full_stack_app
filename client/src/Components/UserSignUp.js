@@ -128,12 +128,6 @@ export default class UserSignUp extends Component {
             })
         }
       })
-  //         context.actions.signIn(emailAddress, password)
-  //           .then(() => {
-  //             this.props.history.push('/authenticated');    
-  //           });
-  //       }
-  //     })
       .catch((err) => {
         console.log(err);
         // access the history object via props, and push the error route

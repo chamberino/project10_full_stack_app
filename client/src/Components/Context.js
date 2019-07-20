@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Data from './Data';
+import Cookies from 'js-cookie';
 
 const Context = React.createContext(); 
 
 export class Provider extends Component {
 
   state = {
-    authenticatedUser: null
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null
   };
 
   constructor() {
@@ -53,12 +54,23 @@ export class Provider extends Component {
           authenticatedUser: user,
         };
       });
+      // Set cookie named authenticated user with js-cookie
+      // The second arg specifies the value to store in the cookie
+      // The third arg is optional and can take in various options
+      // Below the expiry property is set to a value of 1, which means
+      // the cookie will expire after a day
+      Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1});
     }
     return user;
   }
 
   signOut = () => {
-    this.setState({ authenticatedUser: null });
+    this.setState(() => { 
+      return {
+        authenticatedUser: null,
+      }
+    });
+    Cookies.remove('authenticatedUser')
   }
 }
 

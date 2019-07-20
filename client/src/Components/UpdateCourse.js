@@ -12,7 +12,7 @@ the "Course Detail" screen.
 
 /* pass props to UpdateCourse Component from Course */
 
-class UpdateCourse extends Component {
+export default class UpdateCourse extends Component {
 
 
 constructor(props) {
@@ -71,7 +71,7 @@ constructor(props) {
                 </ul>
               </div>
             </div>
-            <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='course-detail.html';">Cancel</button></div>
+            <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick="event.preventDefault(); location.href='course-detail.html';">Cancel</button></div>
           </form>
         </div>
       </div>
@@ -79,7 +79,6 @@ constructor(props) {
   }
 }
 
-export default withRouter(UpdateCourse);
 
 // {/* <form className="search-form" onSubmit={this.handleSubmit}>
 //         <input type="search" onChange={this.onSearchChange} name="search" ref={(input) => this.search = input} placeholder="Search" required=""/>
