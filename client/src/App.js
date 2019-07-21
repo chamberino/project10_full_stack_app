@@ -35,7 +35,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const errorFormWithContext = withContext(NotFound);
-const CoursesWithContext = withContext(Courses);
+// const CoursesWithContext = withContext(Courses);
 
 export default class App extends Component {
   // Constructor initializes state //
@@ -48,18 +48,15 @@ export default class App extends Component {
       <div>
       <BrowserRouter>
         <HeaderWithContext />
-        {/* <Route path="/" render={ ({match}) => <HeaderWithContext match={match} /> }/> */}
         <Switch>
-          {/* <Route exact path="/" render={ () => <Redirect to="/courses/" /> } /> */}
-          <Route exact path="/" component={Public} />
+          <Route exact path="/" render={ () => <Redirect to="/courses/" /> } />
           <PrivateRoute path="/authenticated" component={AuthWithContext} />
-          <PrivateRoute path="/settings" component={AuthWithContext} />
-          {/* <Route exact path="/" component={Courses} /> */}
-          <Route exact path="/courses" component={CoursesWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
-          <Route path="/courses/:id" render={ ({match}) => <CourseDetail title={'About'} match={match}/> } />
+          <PrivateRoute exact path="/courses" component={Courses} />
+          {/* The course id path used to be rendered with render props mounting the CourseDetail component. match and title were passed in as props. */}
+          <PrivateRoute path="/courses/:id" component={CourseDetail} />
           <Route component={errorFormWithContext}/>
           {/* <Route component={NotFound}/> */}
           {/* <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match}/> } />       */}
@@ -69,6 +66,9 @@ export default class App extends Component {
     );
   }
 }
+
+
+{/* <Route path="/courses/:id" render={ ({match}) => <CourseDetail title={'About'} match={match}/> } /> */}
 
 
 //  {/* <Route exact path="/courses/:id" render={ ({match}) => <CourseDetailContainer title={'About'} match={match}/> } /> */}

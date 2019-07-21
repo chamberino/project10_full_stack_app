@@ -1,5 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
+import Form from './Form';
 
 /* 
 UpdateCourse - This component provides the "Update Course" screen by 
@@ -21,61 +22,184 @@ constructor(props) {
         // {/* this.state is going to be the gif data we want to display */}
         this.state= {
         cancelURL: props.cancelURL,    
-        match: props.match,                
+        match: props.match,
+        courseId: props.match.params.id,         
         course: props.course,
         courseURL: props.match.url,
         loading: true,
-        searchText: ''
+        searchText: '',
+        title: props.course.title,
+        description: props.course.description,
+        estimatedTime: props.course.estimatedTime,
+        materialsNeeded: props.course.materialsNeeded,
+        errors: [],
         };
     }
 
-    onSearchChange = e => {
-        this.setState({  searchText: e.target.value });
-    }
+    // onSearchChange = e => {
+    //     this.setState({  searchText: e.target.value });
+    // }
 
-    handleSubmit = e => {
-        e.preventDefault()
-        // this.props.history.push(`/search/${this.state.searchText}`);
-        this.props.onSearch(this.search.value);
-        e.currentTarget.reset();
-    }
+    // handleSubmit = e => {
+    //     e.preventDefault()
+    //     // this.props.history.push(`/search/${this.state.searchText}`);
+    //     this.props.onSearch(this.search.value);
+    //     e.currentTarget.reset();
+    // }
 
   render() {
-    console.log(this.state.cancelURL)
+    
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      errors,
+    } = this.state;
+
+    console.log(this.state.courseId);
+    console.log(this.props.context.authenticatedUser.emailAddress)
+
     return (
         <div className="bounds course--detail">
         <h1>Update Course</h1>
         <div>
-          <form>
-            <div className="grid-66">
-              <div className="course--header">
-                <h4 className="course--label">Course</h4>
-                <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder={this.state.course.title}  defaultValue={this.state.course.title}/></div>
-                <p>By Change Name</p>
-              </div>
-              <div className="course--description">
-                <div><textarea id="description" name="description" className placeholder={this.state.course.description} defaultValue={this.state.course.description} /></div>
-              </div>
-            </div>
-            <div className="grid-25 grid-right">
-              <div className="course--stats">
-                <ul className="course--stats--list">
-                  <li className="course--stats--list--item">
-                    <h4>Estimated Time</h4>
-                    <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder={this.state.course.estimatedTime} defaultValue={this.state.course.estimatedTime} /></div>
-                  </li>
-                  <li className="course--stats--list--item">
-                    <h4>Materials Needed</h4>
-                    <div><textarea id="materialsNeeded" name="materialsNeeded" className placeholder={this.state.course.materialsNeeded} defaultValue={this.state.course.materialsNeeded} /></div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick="event.preventDefault(); location.href='course-detail.html';">Cancel</button></div>
-          </form>
+          <Form
+            cancel={this.cancel}
+            errors={errors}
+            submit={this.submit}
+            submitButtonText="Update"
+            elements={() => (
+              <React.Fragment>
+                <div className="grid-66">
+                  <div className="course--header">
+                    <h4 className="course--label">Course</h4>
+                    <div>
+                      <input 
+                        id="title" 
+                        name="title" 
+                        type="text" 
+                        value={title}
+                        className="input-title course--title--input" 
+                        placeholder={title}  
+                        // defaultValue={title}
+                        onChange={this.change}
+                        />
+                    </div>
+                    <p>By Change Name</p>
+                  </div>
+                  <div className="course--description">
+                    <div>
+                      <textarea 
+                        id="description"  
+                        name="description" 
+                        value={description}
+                        className="" 
+                        placeholder={description} 
+                        // defaultValue={description}
+                        onChange={this.change} />
+                    </div>
+                  </div>
+                </div>
+                <div className="grid-25 grid-right">
+                  <div className="course--stats">
+                    <ul className="course--stats--list">
+                      <li className="course--stats--list--item">
+                        <h4>Estimated Time</h4>
+                        <div>
+                          <input 
+                            id="estimatedTime" 
+                            name="estimatedTime" 
+                            type="text"   
+                            value='bla'
+                            className="course--time--input" 
+                            placeholder={estimatedTime} 
+                            // defaultValue={estimatedTime}
+                            onChange={this.change} />
+                        </div>
+                      </li>
+                      <li className="course--stats--list--item">
+                        <h4>Materials Needed</h4>
+                        <div>
+                          <textarea 
+                            id="materialsNeeded" 
+                            name="materialsNeeded" 
+                            value='bla'
+                            className="" 
+                            placeholder={materialsNeeded} 
+                            // defaultValue={materialsNeeded} 
+                            onChange={this.change}
+                            />
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                {/* <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick="event.preventDefault(); location.href='course-detail.html';">Cancel</button></div>           */}
+              </React.Fragment>
+            )}  />
         </div>
       </div>
     );
+  }
+
+  change = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  }
+
+  submit = () => {
+    // {/* initialize context variable containing the context props  */}
+    const { context } = this.props;
+    const courseId = this.state.courseId
+    // The from variable passed to history.push(from) contains information 
+    // about the pathname an unauthenticated user redirected from (via this.props.location.state). 
+    // const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
+    // unpack properties from state
+    const { title, description, estimatedTime, materialsNeeded, } = this.state;
+    
+    const coursePayload = {
+      title, 
+      description, 
+    };
+
+    const credentials = {
+      emailAddress: this.props.context.authenticatedUser.emailAddress,
+      password: 'beep'
+    }
+
+    // call the signIn() function, passing in the users credentials
+    // signIn returns a promise set to the users credentials or null if invalid 
+    // credentials are sent
+    context.data.update(coursePayload, courseId, credentials)
+      .then((user) => {
+        if (user === null) {
+          this.setState( user.errors );
+        } else {
+          // context.actions.update(coursePayload, courseId, credentials)
+          //   .then(() => {
+          //     this.props.history.push(`/courses/${courseId}`);
+          //   })
+          return user
+          // console.log(`SUCCESS! ${emailAddress} is now signed in!`);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        // catch errors and push new route to History object
+        // this.props.history.push('/error');
+      });
+  }
+
+  cancel = () => {
+    // access the history object via props, and push the error route
+    this.props.history.push('/');
   }
 }
 

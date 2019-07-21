@@ -4,11 +4,13 @@ import {
   Switch
 } from 'react-router-dom';
 import axios from 'axios';
+import withContext from '../Context';
 import CourseDetailContainer from './CourseDetailContainer';
 import UpdateCourse  from '../UpdateCourse';
 import CreateCourse from '../CreateCourse';
-import NotFound from '../NotFound'
+import NotFound from '../NotFound';
 
+const UpdateCourseWithContext = withContext(UpdateCourse);
 /* 
   This stateful component retreives an individual course from the Course API once the component mounts. 
   A course property is set in state with a value of the retrieved courses list. 
@@ -82,7 +84,8 @@ export default class CourseDetail extends Component {
         {
           (this.state.loading)
           ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />
-          : <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourse title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />
+          : <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourseWithContext title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />
+
         }
         <Route component={NotFound}/>
       </Switch>
@@ -93,4 +96,9 @@ export default class CourseDetail extends Component {
   }
 }
 
-{/* <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainer course={this.state.course} updateLink={this.state.courseURL} match={match}/> } />  */}
+//* <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourseWithContext title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } /> */} */}
+
+//* <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainer course={this.state.course} updateLink={this.state.courseURL} match={match}/> } />  */}
+
+
+// : <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourse title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />

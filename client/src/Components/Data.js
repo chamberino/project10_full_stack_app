@@ -47,6 +47,27 @@ export default class Data {
       throw new Error();
     }
   }
+  async update(coursePayload, courseId, credentials) {
+    console.log(coursePayload);
+    // const course = await 
+    const response = await this.api(`/api/courses/${courseId}`, 'PUT', coursePayload, true, credentials);
+    if (response.errors) {
+      console.log(response.errors)
+    } else {
+      if (response.status === 204) {
+        return response
+        // .json().then(data => data);
+      }
+      else if (response.status === 401) {
+        return null;
+      }
+      else {
+        throw new Error();
+      }
+    }
+  }
+
+  
   
   // createUser() is an asynchronous operation that returns a promise. 
   // The resolved value of the promise is either an array of errors 

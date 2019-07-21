@@ -6,7 +6,6 @@ const Sequelize = require('sequelize');
 const authenticateUser = require('./authenticate');
 const { check, validationResult } = require('express-validator/check');
 
-
 // Get all courses route
 router.get('/', (req, res, next) => {
     // Query the db to get all courses, returning the specified attributes

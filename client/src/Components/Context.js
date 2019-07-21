@@ -29,7 +29,8 @@ export class Provider extends Component {
       data: this.data,
       actions: {
         signIn: this.signIn,
-        signOut: this.signOut
+        signOut: this.signOut,
+        update: this.update
       },
     };
     return (
@@ -71,6 +72,12 @@ export class Provider extends Component {
       }
     });
     Cookies.remove('authenticatedUser')
+  }
+
+  upDateCourse = async (title, description, estimatedTime, materialsNeeded, courseId) => {
+    const update = await this.data.upDate(title, description, estimatedTime, materialsNeeded, courseId);
+    // conditionally set authenticated 
+    return update
   }
 }
 

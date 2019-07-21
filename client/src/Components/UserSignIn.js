@@ -71,7 +71,8 @@ export default class UserSignIn extends Component {
   submit = () => {
     // {/* initialize context variable containing the context props  */}
     const { context } = this.props;
-    // The from property is set to the location property set in the PrivateRoute Component
+    // The from variable passed to history.push(from) contains information 
+    // about the pathname an unauthenticated user redirected from (via this.props.location.state). 
     const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
     // unpack username and properties password from state
     const { emailAddress, password } = this.state;
