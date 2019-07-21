@@ -43,7 +43,8 @@ export default class CourseDetail extends Component {
     this.state= {
       course: [],
       courseURL: props.match.url,
-      loading: true
+      loading: true,
+      authenticatedUser: props.context.authenticatedUser.id
     };
   }
   
@@ -55,22 +56,25 @@ export default class CourseDetail extends Component {
   getCourse = () => {
     axios.get(`http://localhost:5000/api${this.state.courseURL}`)
       .then(response => {
+        console.log(response);
         this.setState({
+          courseCreatorId: response.userId,
           course: response.data,
           loading: false,
-          html: <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainer course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
+          html: <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainer courseCreatorId={this.state.courseCreatorId} authenticatedUserId={this.state.authenticatedUser} course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
         })
       })
       .catch(error => {
           error.status = 400;
           this.setState({
-            error: "Error Handling",
+            error: error.response.data.message,
             loading: false,
-            html: <Route exact path="/courses/:id" render= {() => <p>{ error.response.data.message }</p>  } />
+            html: <Route path="/courses/:id" render= {() => <p>{ error.response.data.message }</p>  } />
           })
       });
   }
-  
+
+
   render() {
     return (    
       <div>
@@ -84,7 +88,7 @@ export default class CourseDetail extends Component {
         {
           (this.state.loading)
           ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />
-          : <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourseWithContext title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />
+          : <Route exact path="/courses/:id/update-course/" render={ ({match, history}) => <UpdateCourseWithContext title={'About'} match={match} history={history} course={this.state.course} cancelURL={this.state.courseURL} loading={this.state.loading} errors={this.state.error}/> } />
 
         }
         <Route component={NotFound}/>
@@ -95,6 +99,35 @@ export default class CourseDetail extends Component {
     );
   }
 }
+
+
+// render() {
+//   return (    
+//     <div>
+//     <Switch>
+//       <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />
+//       {
+//         (this.state.loading)
+//         ? <Route exact path="/courses/:id" render= {() => <p>Loading...</p>  } />
+//         : (this.state.html)
+//       }
+//       {
+//         (this.state.loading)
+//         ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />
+//         : <Route exact path="/courses/:id/update-course/" render={ ({match, history}) => <UpdateCourseWithContext title={'About'} match={match} history={history} course={this.state.course} cancelURL={this.state.courseURL}/> } />
+
+//       }
+//       <Route component={NotFound}/>
+//     </Switch>
+//       <div className="main-content">
+//       </div>
+//     </div>
+//   );
+// }
+// }
+
+
+
 
 //* <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourseWithContext title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } /> */} */}
 

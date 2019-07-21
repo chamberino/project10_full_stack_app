@@ -12,11 +12,17 @@ import { Link } from 'react-router-dom';
 const CourseDetailContainer = props => {
     return (
         <div>
-            <div className="actions--bar">
-            <div className="bounds">
+            
+            {/* check userId against authenticated UsersId to determine if edit buttons display*/}
+            {
+          (props.authenticatedUserId === props.course.userId)
+          ? <div className="actions--bar"><div className="bounds">
                 <div className="grid-100"><span><Link className="button" to={`${props.match.url}/update-course`}>Update Course</Link><Link className="button" to="#">Delete Course</Link></span><Link className="button button-secondary" to="/courses">Return to List</Link></div>
-            </div>
-            </div>
+            </div></div>
+          : <div className="actions--bar"><div className="bounds">
+                <div className="grid-100"><Link className="button button-secondary" to="/courses">Return to List</Link></div>
+            </div></div>
+        }
             <div className="bounds course--detail">
             <div className="grid-66">
                 <div className="course--header">

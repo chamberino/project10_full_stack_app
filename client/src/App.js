@@ -34,6 +34,7 @@ const AuthWithContext = withContext(Authenticated);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
+const CourseDetailWithContext = withContext(CourseDetail);
 const errorFormWithContext = withContext(NotFound);
 // const CoursesWithContext = withContext(Courses);
 
@@ -56,7 +57,7 @@ export default class App extends Component {
           <Route path="/signout" component={UserSignOutWithContext} />
           <PrivateRoute exact path="/courses" component={Courses} />
           {/* The course id path used to be rendered with render props mounting the CourseDetail component. match and title were passed in as props. */}
-          <PrivateRoute path="/courses/:id" component={CourseDetail} />
+          <PrivateRoute path="/courses/:id" component={CourseDetailWithContext} />
           <Route component={errorFormWithContext}/>
           {/* <Route component={NotFound}/> */}
           {/* <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match}/> } />       */}

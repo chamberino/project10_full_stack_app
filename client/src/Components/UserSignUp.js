@@ -118,7 +118,7 @@ export default class UserSignUp extends Component {
         // The value returned from createUser is an object with the users credentials
         // or an object containing error messages and the status code.
         // If there are any errors, they will be set to a messages property
-        if (errors.message) {
+        if (errors) {
           // if any error messages, set the error state to the value of the errors
           this.setState({ errors });
         } else {

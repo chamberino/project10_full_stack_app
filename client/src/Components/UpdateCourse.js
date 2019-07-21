@@ -1,5 +1,7 @@
-import { withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import Form from './Form';
 
 /* 
@@ -15,12 +17,13 @@ the "Course Detail" screen.
 
 export default class UpdateCourse extends Component {
 
-
 constructor(props) {
     // Super allows us to use the keyword 'this' inside the constructor within the context of the app class
         super();
         // {/* this.state is going to be the gif data we want to display */}
         this.state= {
+        preservedTitle: props.course.title, 
+        preservedDescription: props.course.description,
         cancelURL: props.cancelURL,    
         match: props.match,
         courseId: props.match.params.id,         
@@ -36,6 +39,29 @@ constructor(props) {
         };
     }
 
+    // componentDidMount() {
+    //   // {/* componentDidMount is called immediately after a component is loaded to the DOM so if you need to load external data right when a component gets mounted to the DOM, this is a good place */}
+    //   this.getCourse()
+    // }
+    
+    // getCourse = () => {
+    //   axios.get(`http://localhost:5000/api/courses/${this.state.courseId}`)
+    //     .then(response => {
+    //       this.setState({
+    //         course: response.data,
+    //         loading: false,
+    //       })
+    //     })
+    //     .catch(error => {
+    //         error.status = 400;
+    //         this.setState({
+    //           error: "Error Handling",
+    //           loading: false,
+    //           html: <Route exact path="/courses/:id" render= {() => <p>{ error.response.data.message }</p>  } />
+    //         })
+    //     });
+    // }
+
     // onSearchChange = e => {
     //     this.setState({  searchText: e.target.value });
     // }
@@ -48,7 +74,6 @@ constructor(props) {
     // }
 
   render() {
-    
     const {
       title,
       description,
@@ -57,9 +82,9 @@ constructor(props) {
       errors,
     } = this.state;
 
-    console.log(this.state.courseId);
-    console.log(this.props.context.authenticatedUser.emailAddress)
+    console.log(this.state.errors);
 
+    
     return (
         <div className="bounds course--detail">
         <h1>Update Course</h1>
@@ -178,15 +203,20 @@ constructor(props) {
     // signIn returns a promise set to the users credentials or null if invalid 
     // credentials are sent
     context.data.update(coursePayload, courseId, credentials)
-      .then((user) => {
-        if (user === null) {
-          this.setState( user.errors );
-        } else {
+      .then((response) => {
+        if (response.status !== 204) {
+          this.setState({ errors: response });
+          this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})
+        }
+         else {
+           console.log(response);
+           this.setState({ errors: response });
+          this.setState({title: title, description: description});
           // context.actions.update(coursePayload, courseId, credentials)
           //   .then(() => {
-          //     this.props.history.push(`/courses/${courseId}`);
+              this.props.history.push(`/courses/${courseId}`);
           //   })
-          return user
+          return response
           // console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }
       })

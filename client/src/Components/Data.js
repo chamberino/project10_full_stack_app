@@ -51,16 +51,15 @@ export default class Data {
     console.log(coursePayload);
     // const course = await 
     const response = await this.api(`/api/courses/${courseId}`, 'PUT', coursePayload, true, credentials);
-    if (response.errors) {
-      console.log(response.errors)
+    if (response.status === 204) {
+      return response
     } else {
-      if (response.status === 204) {
-        return response
-        // .json().then(data => data);
+      if (response.status !== 204) {
+        return response.json().then(data => data);
       }
-      else if (response.status === 401) {
-        return null;
-      }
+      // else if (response.status === 401) {
+      //   return null;
+      // }
       else {
         throw new Error();
       }
