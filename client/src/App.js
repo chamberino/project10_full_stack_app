@@ -11,13 +11,13 @@ import './global.css';
 import Header from './Components/Header';
 import Courses from './Components/Courses/Courses';
 import CourseDetail from './Components/CourseDetail/CourseDetail';
+import CreateCourse from './Components/CreateCourse';
 import NotFound from './Components/NotFound';
 // import CreateCourse from './Components/CreateCourse';
 import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
 import Authenticated from './Components/Authenticated';
-import Public from './Components/Public';
 
 // Connect the App Component to Context
 import withContext from './Components/Context';
@@ -35,6 +35,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const CourseDetailWithContext = withContext(CourseDetail);
+const CreateCourseWithContext = withContext(CreateCourse);
 const errorFormWithContext = withContext(NotFound);
 // const CoursesWithContext = withContext(Courses);
 
@@ -51,10 +52,11 @@ export default class App extends Component {
         <HeaderWithContext />
         <Switch>
           <Route exact path="/" render={ () => <Redirect to="/courses/" /> } />
-          <PrivateRoute path="/authenticated" component={AuthWithContext} />
+          <PrivateRoute test="test" path="/authenticated" component={AuthWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
+          <Route exact path="/courses/create-course/" component={CreateCourseWithContext}/>
           <PrivateRoute exact path="/courses" component={Courses} />
           {/* The course id path used to be rendered with render props mounting the CourseDetail component. match and title were passed in as props. */}
           <PrivateRoute path="/courses/:id" component={CourseDetailWithContext} />

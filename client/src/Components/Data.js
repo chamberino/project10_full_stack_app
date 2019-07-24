@@ -47,8 +47,9 @@ export default class Data {
       throw new Error();
     }
   }
+
   async update(coursePayload, courseId, credentials) {
-    console.log(coursePayload);
+    console.log(coursePayload)
     // const course = await 
     const response = await this.api(`/api/courses/${courseId}`, 'PUT', coursePayload, true, credentials);
     if (response.status === 204) {
@@ -63,6 +64,25 @@ export default class Data {
       else {
         throw new Error();
       }
+    }
+  }
+
+  async create(coursePayload, credentials) {
+    console.log(typeof(coursePayload));
+    console.log(credentials)
+    // await the results returned from the api method 
+    const response = await this.api('/api/courses', 'POST', coursePayload, true, credentials);
+    // If user is created and a 201 status is set, return empty array
+    if (response.status === 201) {
+      return response;
+    }
+    // If there is a problem creating the user, return the data
+    // Which will be the error data
+    else if (response.status !== 201) {
+      return response.json().then(data => data);
+    }
+    else {
+      throw new Error();
     }
   }
 
@@ -90,4 +110,8 @@ export default class Data {
       throw new Error();
     }
   }
+
 }
+
+
+

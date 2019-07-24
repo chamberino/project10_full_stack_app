@@ -82,9 +82,11 @@ router.post('/', [
         // Use the Array `map()` method to get a list of error messages.
         const errorMessages = errors.array().map(error => error.msg);
         // Create custom error with 400 status code
-        const error = new Error(errorMessages);
-        error.status = 400;
-        next(error); // pass error along to global error handler
+        res.status(400);
+        return res.json(errorMessages);
+        // const error = new Error(errorMessages);
+        // error.status = 400;
+        // next(error); // pass error along to global error handler
     } else {
         Course.findOne({ where: {title: req.body.title} })
         .then((course) => {

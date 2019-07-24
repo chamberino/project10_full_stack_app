@@ -1,4 +1,5 @@
 import { withRouter, Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -136,7 +137,7 @@ constructor(props) {
                             id="estimatedTime" 
                             name="estimatedTime" 
                             type="text"   
-                            value='bla'
+                            value={this.estimatedTime}
                             className="course--time--input" 
                             placeholder={estimatedTime} 
                             // defaultValue={estimatedTime}
@@ -149,7 +150,7 @@ constructor(props) {
                           <textarea 
                             id="materialsNeeded" 
                             name="materialsNeeded" 
-                            value='bla'
+                            value={this.materialsNeeded}
                             className="" 
                             placeholder={materialsNeeded} 
                             // defaultValue={materialsNeeded} 
@@ -207,13 +208,13 @@ constructor(props) {
         if (response.status !== 204) {
           this.setState({ errors: response });
           this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})
-        }
-         else {
-           console.log(response);
-           this.setState({ errors: response });
+        } else {
+          console.log(response);
+          this.setState({ errors: response });
           this.setState({title: title, description: description});
           // context.actions.update(coursePayload, courseId, credentials)
           //   .then(() => {
+      
               this.props.history.push(`/courses/${courseId}`);
           //   })
           return response

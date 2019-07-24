@@ -1,5 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
+import Form from './Form';
 
 /* 
 UpdateCourse - This component provides the "Update Course" screen by 
@@ -12,41 +13,42 @@ the "Course Detail" screen.
 
 /* pass props to UpdateCourse Component from Course */
 
-class CreateCourse extends Component {
+export default class CreateCourseWithContext extends Component {
 
-
-constructor(props) {
-    // Super allows us to use the keyword 'this' inside the constructor within the context of the app class
-        super();
-        // {/* this.state is going to be the gif data we want to display */}
-        this.state= {
-        cancelURL: props.cancelURL,    
-        match: props.match,                
-        course: props.course,
-        courseURL: props.match.url,
-        loading: true,
-        searchText: ''
-        };
-    }
-
-    onSearchChange = e => {
-        this.setState({  searchText: e.target.value });
-    }
-
-    handleSubmit = e => {
-        e.preventDefault()
-        // this.props.history.push(`/search/${this.state.searchText}`);
-        this.props.onSearch(this.search.value);
-        e.currentTarget.reset();
-    }
+  constructor(props) {
+    super();
+  this.state= {
+  title: '',    
+  description: '',                
+  estimatedTime: '',
+  materialsNeeded: '',
+  errors: [],
+  searchText: ''
+  };
+}
 
   render() {
-    console.log(this.state.cancelURL)
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      errors,
+    } = this.state;
+
     return (
-<div className="bounds course--detail">
+      <div className="bounds course--detail">
         <h1>Create Course</h1>
-        <div>
-          <div>
+        <Form 
+            cancel={this.cancel}
+            errors={errors}
+            submit={this.submit}
+            submitButtonText="Create Course"
+            // elements prop is a function  which returns
+            // the input fields to be used in each of the forms:
+            elements={() => (
+              <React.Fragment>
+          {/* <div>
             <h2 className="validation--errors--label">Validation errors</h2>
             <div className="validation-errors">
               <ul>
@@ -54,16 +56,36 @@ constructor(props) {
                 <li>Please provide a value for "Description"</li>
               </ul>
             </div>
-          </div>
-          <form>
+          </div> */}
             <div className="grid-66">
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
-                <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." defaultValue /></div>
+                <div>
+                  <input 
+                    id="title" 
+                    name="title" 
+                    type="text" 
+                    className="input-title course--title--input" 
+                    onChange={this.change} 
+                    placeholder="Course title..." 
+                    value={title}
+                    // defaultValue
+                     />
+                </div>
                 <p>By Joe Smith</p>
               </div>
               <div className="course--description">
-                <div><textarea id="description" name="description" className placeholder="Course description..." defaultValue={""} /></div>
+                <div>
+                  <textarea 
+                    id="description" 
+                    name="description" 
+                    className="" 
+                    placeholder="Course description..." 
+                    // defaultValue={""} 
+                    value={description}
+                    onChange={this.change} 
+                    />
+                  </div>
               </div>
             </div>
             <div className="grid-25 grid-right">
@@ -71,21 +93,111 @@ constructor(props) {
                 <ul className="course--stats--list">
                   <li className="course--stats--list--item">
                     <h4>Estimated Time</h4>
-                    <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" defaultValue /></div>
+                    <div>
+                      <input 
+                        id="estimatedTime" 
+                        name="estimatedTime" 
+                        type="text" 
+                        className="course--time--input" 
+                        onChange={this.change} 
+                        // placeholder="Hours" 
+                        value={estimatedTime} />
+                    </div>
                   </li>
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
-                    <div><textarea id="materialsNeeded" name="materialsNeeded" className placeholder="List materials..." defaultValue={""} /></div>
+                    <div>
+                      <textarea 
+                        id="materialsNeeded" 
+                        name="materialsNeeded" 
+                        placeholder="List materials..." 
+                        onChange={this.change} 
+                        // defaultValue={""} 
+                        value={materialsNeeded}
+                        />
+                    </div>
                   </li>
                 </ul>
               </div>
             </div>
-            <div className="grid-100 pad-bottom"><button className="button" type="submit">Create Course</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button></div>
-          </form>
-        </div>
+            {/* <div className="grid-100 pad-bottom"><button className="button" type="submit">Create Course</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button></div> */}
+        </React.Fragment>
+          )} />
       </div>
     );
   }
+
+  change = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  }
+
+  submit = () => {
+    // Data is passed to the component via a prop named context. 
+    // Destructuring is used to extract the value from props. 
+    const { context } = this.props;
+    // Destructuring is used to
+
+    // unpack the name, username and password properties from 
+    // the state object (this.state) into distinct variables
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+    } = this.state;
+    
+    // Initialize a variable named user to an object 
+    // whose properties are name, user and password
+    const coursePayload = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+    };
+
+    const credentials = {
+      emailAddress: this.props.context.authenticatedUser.emailAddress,
+      password: 'beep'
+    }
+
+    // Create user by calling the createUser function made available through Context
+    // passing in the user data.
+    context.data.create(coursePayload, credentials)
+    .then((response) => {
+      if (response.status !== 201) {
+        this.setState({ errors: response });
+        this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})
+      } else {
+        console.log(response);
+        this.setState({ errors: response });
+        this.setState({title: title, description: description, estimatedTime: estimatedTime, materialsNeeded: materialsNeeded});
+        // context.actions.update(coursePayload, courseId, credentials)
+        //   .then(() => {
+    
+            // this.props.history.push(`/courses/${courseId}`);
+        //   })
+        return response
+        // console.log(`SUCCESS! ${emailAddress} is now signed in!`);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      // catch errors and push new route to History object
+      // this.props.history.push('/error');
+    });
 }
 
-export default withRouter(CreateCourse);
+  cancel = () => {
+    // access the history object via props, and push the error route
+    this.props.history.push('/');
+  }
+}
+
+// export default withRouter(CreateCourse);

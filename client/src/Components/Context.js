@@ -27,6 +27,7 @@ export class Provider extends Component {
     const value = {
       authenticatedUser,
       data: this.data,
+
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
@@ -76,6 +77,12 @@ export class Provider extends Component {
 
   upDateCourse = async (title, description, estimatedTime, materialsNeeded, courseId) => {
     const update = await this.data.upDate(title, description, estimatedTime, materialsNeeded, courseId);
+    // conditionally set authenticated 
+    return update
+  }
+
+  CreateCourse = async (title, description, estimatedTime=null, materialsNeeded=null) => {
+    const update = await this.data.create(title, description, estimatedTime, materialsNeeded);
     // conditionally set authenticated 
     return update
   }

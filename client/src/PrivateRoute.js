@@ -5,10 +5,10 @@ import { Consumer } from './Components/Context';
 export default ({ component: Component, ...rest }) => {
     return (
         <Consumer>
-        {context => (
+        {(context) => (
           <Route
             {...rest}
-            render={props => context.authenticatedUser ? (
+            render={props => (context.authenticatedUser) ? (
                 <Component {...props} />
               ) : (
                 // The React Redirect Component provides a simple way to  

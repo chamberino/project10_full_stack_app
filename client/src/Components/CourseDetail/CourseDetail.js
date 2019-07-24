@@ -7,10 +7,10 @@ import axios from 'axios';
 import withContext from '../Context';
 import CourseDetailContainer from './CourseDetailContainer';
 import UpdateCourse  from '../UpdateCourse';
-import CreateCourse from '../CreateCourse';
 import NotFound from '../NotFound';
 
 const UpdateCourseWithContext = withContext(UpdateCourse);
+
 /* 
   This stateful component retreives an individual course from the Course API once the component mounts. 
   A course property is set in state with a value of the retrieved courses list. 
@@ -74,22 +74,20 @@ export default class CourseDetail extends Component {
       });
   }
 
-
   render() {
+    // console.log(this.state.course.userId)
     return (    
       <div>
       <Switch>
-        <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />
+        {
+          (this.state.loading)
+          ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />
+          : <Route exact path="/courses/:id/update-course/" render={ ({match, history}) => (this.state.authenticatedUser !== this.state.course.userId) ?<p>Unauthorized</p> :<UpdateCourseWithContext title={'About'} match={match} history={history} course={this.state.course} cancelURL={this.state.courseURL} loading={this.state.loading} errors={this.state.error}/> } />          
+        }
         {
           (this.state.loading)
           ? <Route exact path="/courses/:id" render= {() => <p>Loading...</p>  } />
           : (this.state.html)
-        }
-        {
-          (this.state.loading)
-          ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />
-          : <Route exact path="/courses/:id/update-course/" render={ ({match, history}) => <UpdateCourseWithContext title={'About'} match={match} history={history} course={this.state.course} cancelURL={this.state.courseURL} loading={this.state.loading} errors={this.state.error}/> } />
-
         }
         <Route component={NotFound}/>
       </Switch>
@@ -99,6 +97,8 @@ export default class CourseDetail extends Component {
     );
   }
 }
+
+
 
 
 // render() {
