@@ -24,6 +24,7 @@ export default class Data {
       // If authentication is required, pass the authentication information to the server 
       // in an Authorization header using base-64 encoding
       const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
+      console.log(credentials);
       // Add Authorization property to options.headers
       // Set the Authorization type to Basic, followed by the encoded credentials, 
       // stored in the variable encodedCredentials:
@@ -68,12 +69,12 @@ export default class Data {
   }
 
   async create(coursePayload, credentials) {
-    console.log(typeof(coursePayload));
     console.log(credentials)
     // await the results returned from the api method 
     const response = await this.api('/api/courses', 'POST', coursePayload, true, credentials);
     // If user is created and a 201 status is set, return empty array
     if (response.status === 201) {
+      console.log(response)
       return response;
     }
     // If there is a problem creating the user, return the data
@@ -85,7 +86,6 @@ export default class Data {
       throw new Error();
     }
   }
-
   
   
   // createUser() is an asynchronous operation that returns a promise. 
@@ -104,6 +104,25 @@ export default class Data {
     // If there is a problem creating the user, return the data
     // Which will be the error data
     else if (response.status === 400) {
+      return response.json().then(data => data);
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+  async delete(courseId, credentials) {
+    // await the results returned from the api method 
+    const response = await this.api(`/api/courses/${courseId}`, 'DELETE', null, true, credentials);
+    // If user is created and a 201 status is set, return empty array
+    if (response.status === 204) {
+      console.log(response)
+      return response;
+    }
+    // If there is a problem creating the user, return the data
+    // Which will be the error data
+    else if (response.status === 500) {
+      console.log(response)
       return response.json().then(data => data);
     }
     else {

@@ -163,26 +163,24 @@ export default class CreateCourseWithContext extends Component {
     };
 
     const credentials = {
-      emailAddress: this.props.context.authenticatedUser.emailAddress,
-      password: 'beep'
+      emailAddress: this.props.context.authenticatedUser.user.emailAddress,
+      password: this.props.context.authenticatedUser.password
     }
 
     // Create user by calling the createUser function made available through Context
     // passing in the user data.
     context.data.create(coursePayload, credentials)
     .then((response) => {
+      console.log(response.headers)
       if (response.status !== 201) {
         this.setState({ errors: response });
         this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})
       } else {
-        console.log(response);
         this.setState({ errors: response });
         this.setState({title: title, description: description, estimatedTime: estimatedTime, materialsNeeded: materialsNeeded});
-        // context.actions.update(coursePayload, courseId, credentials)
-        //   .then(() => {
     
-            // this.props.history.push(`/courses/${courseId}`);
-        //   })
+        this.props.history.push(`/courses/`);
+        
         return response
         // console.log(`SUCCESS! ${emailAddress} is now signed in!`);
       }
@@ -199,5 +197,3 @@ export default class CreateCourseWithContext extends Component {
     this.props.history.push('/');
   }
 }
-
-// export default withRouter(CreateCourse);

@@ -65,7 +65,9 @@ const app = express();
 // }));
 
 //cors cross-origin request enabling middleware
-app.use(cors());
+app.use(cors({                                                                 
+  exposedHeaders:['Location'],                                                                                                                         
+}));
 
 //JSON parser
 app.use(express.json());

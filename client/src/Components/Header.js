@@ -14,10 +14,7 @@ export default class Header extends React.PureComponent {
   render() {
     // extract context from this.props for easier data management
     const { context } = this.props;
-    // authUser will either hold the currently signed in users credentials
-    // or null if no user is signed in
-    const authUser = context.authenticatedUser;
-
+    
     // The header nav is conditionally rendered based on the authenticatedUser state
     return (
       <div className="header">
@@ -26,9 +23,9 @@ export default class Header extends React.PureComponent {
 
           <Link to="/courses"><h1 className="header--logo">Courses</h1></Link>
           <nav>
-            {authUser ? (
+            {context.authenticatedUser ? (
               <React.Fragment>
-                <span>Welcome, {authUser.fullName}!</span>
+                <span>Welcome, {context.authenticatedUser.user.fullName}!</span>
                 <Link to="/signout">Sign Out</Link>
               </React.Fragment>
             ) : (

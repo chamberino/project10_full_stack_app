@@ -82,9 +82,6 @@ constructor(props) {
       materialsNeeded,
       errors,
     } = this.state;
-
-    console.log(this.state.errors);
-
     
     return (
         <div className="bounds course--detail">
@@ -193,12 +190,15 @@ constructor(props) {
     const coursePayload = {
       title, 
       description, 
+      estimatedTime,
+      materialsNeeded
     };
 
     const credentials = {
-      emailAddress: this.props.context.authenticatedUser.emailAddress,
-      password: 'beep'
+      emailAddress: this.props.context.authenticatedUser.user.emailAddress,
+      password: this.props.context.authenticatedUser.password
     }
+    console.log(credentials)
 
     // call the signIn() function, passing in the users credentials
     // signIn returns a promise set to the users credentials or null if invalid 
@@ -226,6 +226,11 @@ constructor(props) {
         // catch errors and push new route to History object
         // this.props.history.push('/error');
       });
+  }
+
+  delete = () => {
+    // access the history object via props, and push the error route
+    this.props.history.push('/');
   }
 
   cancel = () => {

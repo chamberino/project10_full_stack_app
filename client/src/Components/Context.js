@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import Data from './Data';
 import Cookies from 'js-cookie';
 
+const jwt = require('jsonwebtoken');
+
 const Context = React.createContext(); 
 
 export class Provider extends Component {
 
   state = {
+    // if a an 'authenticatedUser' cookie exists, then state is set to it's value
+    // Otherwise the value of authenticatedUser is null and a user will have to sign-in to view
+    // private routes
     authenticatedUser: Cookies.getJSON('authenticatedUser') || null
   };
 
@@ -31,7 +36,8 @@ export class Provider extends Component {
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
-        update: this.update
+        update: this.update,
+        delete: this.DeleteCourse
       },
     };
     return (
@@ -53,7 +59,7 @@ export class Provider extends Component {
     if (user !== null) {
       this.setState(() => {
         return {
-          authenticatedUser: user,
+          authenticatedUser: {user, password: password}
         };
       });
       // Set cookie named authenticated user with js-cookie
@@ -61,7 +67,7 @@ export class Provider extends Component {
       // The third arg is optional and can take in various options
       // Below the expiry property is set to a value of 1, which means
       // the cookie will expire after a day
-      Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1});
+      Cookies.set('authenticatedUser', JSON.stringify(this.state.authenticatedUser), {expires: 1});
     }
     return user;
   }
@@ -75,17 +81,24 @@ export class Provider extends Component {
     Cookies.remove('authenticatedUser')
   }
 
-  upDateCourse = async (title, description, estimatedTime, materialsNeeded, courseId) => {
+  upDateCourse = async (title, description, estimatedTime=null, materialsNeeded=null, courseId) => {
     const update = await this.data.upDate(title, description, estimatedTime, materialsNeeded, courseId);
     // conditionally set authenticated 
     return update
   }
 
   CreateCourse = async (title, description, estimatedTime=null, materialsNeeded=null) => {
-    const update = await this.data.create(title, description, estimatedTime, materialsNeeded);
+    const newCourse = await this.data.create(title, description, estimatedTime, materialsNeeded);
     // conditionally set authenticated 
-    return update
+    console.log(newCourse);
+    return newCourse;
   }
+
+  DeleteCourse = async (courseId, credentials) => {
+    const deleteCourse = await this.data.delete(courseId, credentials)
+    return deleteCourse;
+  }
+
 }
 
 export const Consumer = Context.Consumer;

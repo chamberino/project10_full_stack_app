@@ -8,8 +8,12 @@ import withContext from '../Context';
 import CourseDetailContainer from './CourseDetailContainer';
 import UpdateCourse  from '../UpdateCourse';
 import NotFound from '../NotFound';
+import DeleteCourse from '../DeleteCourse';
 
 const UpdateCourseWithContext = withContext(UpdateCourse);
+const CourseDetailContainerWithContext = withContext(CourseDetailContainer);
+const DeleteCourseWithContext = withContext(DeleteCourse);
+
 
 /* 
   This stateful component retreives an individual course from the Course API once the component mounts. 
@@ -41,10 +45,11 @@ export default class CourseDetail extends Component {
     super();
     // {/* this.state contains the course data we want to display */}
     this.state= {
-      course: [],
+      course: {},
       courseURL: props.match.url,
       loading: true,
-      authenticatedUser: props.context.authenticatedUser.id
+      authenticatedUser: props.context.authenticatedUser.user.id,
+      context: props.context.actions.delete
     };
   }
   
@@ -56,12 +61,11 @@ export default class CourseDetail extends Component {
   getCourse = () => {
     axios.get(`http://localhost:5000/api${this.state.courseURL}`)
       .then(response => {
-        console.log(response);
         this.setState({
           courseCreatorId: response.userId,
           course: response.data,
           loading: false,
-          html: <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainer courseCreatorId={this.state.courseCreatorId} authenticatedUserId={this.state.authenticatedUser} course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
+          html: <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainerWithContext courseCreatorId={this.state.courseCreatorId} authenticatedUserId={this.state.authenticatedUser} course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
         })
       })
       .catch(error => {
@@ -75,10 +79,10 @@ export default class CourseDetail extends Component {
   }
 
   render() {
-    // console.log(this.state.course.userId)
     return (    
       <div>
       <Switch>
+      <Route exact path="/courses/:id/delete/" render = { ({match, history}) => <DeleteCourseWithContext match={match} history={history} courseId={this.state.course.id}/>  } />
         {
           (this.state.loading)
           ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />

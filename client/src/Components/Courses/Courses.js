@@ -34,6 +34,7 @@ export default class Courses extends Component {
   componentDidMount() {
     this.getCourses()
 }
+
   getCourses = () => {
     axios.get('http://localhost:5000/api/courses')
       .then(response => {

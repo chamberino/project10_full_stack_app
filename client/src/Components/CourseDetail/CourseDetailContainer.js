@@ -11,18 +11,31 @@ import PrivateRoute2 from '../../PrivateRoute';
 /* This component receives its props from CourseDetail*/
 
 const CourseDetailContainer = props => {
+    console.log(props)
     return (
         <div>
             
             {/* check userId against authenticated UsersId to determine if edit buttons display*/}
             {
           (props.authenticatedUserId === props.course.userId)
-          ? <div className="actions--bar"><div className="bounds">
-                <div className="grid-100"><span><Link className="button" to={`${props.match.url}/update-course`}>Update Course</Link><Link className="button" to="#">Delete Course</Link></span><Link className="button button-secondary" to="/courses">Return to List</Link></div>
-            </div></div>
-          : <div className="actions--bar"><div className="bounds">
-                <div className="grid-100"><Link className="button button-secondary" to="/courses">Return to List</Link></div>
-            </div></div>
+          ? <div className="actions--bar">
+                <div className="bounds">
+                    <div className="grid-100">
+                        <span>
+                            <Link className="button" to={`${props.match.url}/update-course`}>Update Course</Link>
+                        </span>
+                    <Link className="button" to={`/courses/${props.course.id}/delete`}>Delete Course</Link>
+                    <Link className="button button-secondary" to="/courses">Return to List</Link>
+                </div>
+            </div>
+            </div>
+          : <div className="actions--bar">
+                <div className="bounds">
+                    <div className="grid-100">
+                        <Link className="button button-secondary" to="/courses">Return to List</Link>
+                    </div>
+                </div>
+            </div>
         }
             <div className="bounds course--detail">
             <div className="grid-66">
