@@ -42,21 +42,18 @@ router.post('/', [
         const errorMessages = errors.array().map(error => error.msg);
         res.status(400);
         return res.json(errorMessages);
-        // Create custom error with 400 status code
-        // const error = new Error(errorMessages);
-        // next(error); // pass error along to global error handler
     } else {
         if (!emailRegEx.test(req.body.emailAddress)) { // Test email against regex
-            const error = new Error('Please enter a valid address. Example: foo@bar.com'); //Set custom error    
-            error.status = 400;
-            next(error); // pass error along to global error handler
+            const error = ['Please enter a valid address. Example: foo@bar.com'];
+            res.status(400);
+            return res.json(error);
         } else { // query the database to see if a user has already been created with that email address
             User.findOne({ where: {emailAddress: req.body.emailAddress} })
             .then((user) => {
                 if (user) {
-                    const error = new Error('A user with this email address already exists'); //Set custom error    
-                    error.status = 400;
-                    next(error); // pass error along to global error handler
+                    const error = ['A user with this email address already exists'];
+                    res.status(400);
+                    return res.json(error);
                 } else {
                     // Hash the new user's password before persisting to the database.
                     var hash = bcrypt.hashSync(req.body.password);

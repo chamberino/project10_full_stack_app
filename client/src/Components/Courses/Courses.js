@@ -21,7 +21,7 @@ once the data loads and the component is able to mount
 export default class Courses extends Component {
 // Constructor initializes state //
 
-  constructor() {
+  constructor(props) {
   // Super allows us to use the keyword 'this' inside the constructor within the context of the app class
     super();
     // {/* this.state is going to be the gif data we want to display */}
@@ -32,24 +32,31 @@ export default class Courses extends Component {
   }
 
   componentDidMount() {
-    this.getCourses()
-}
-
-  getCourses = () => {
-    axios.get('http://localhost:5000/api/courses')
-      .then(response => {
+    // this.getCourses()
+    this.props.context.actions.getCourses()
+      .then(courses=>{
         this.setState({
-          courses: response.data,
+          courses: courses,
           loading: false
         })
       })
-      .catch(error => {
-        // this.setState({
-        //   loading: false
-        // })
-        console.log('Error fetching and parsing data', error);
-      });
   }
+
+  // getCourses = () => {
+  //   axios.get('http://localhost:5000/api/courses')
+  //     .then(response => {
+  //       this.setState({
+  //         courses: response.data,
+  //         loading: false
+  //       })
+  //     })
+  //     .catch(error => {
+  //       // this.setState({
+  //       //   loading: false
+  //       // })
+  //       console.log('Error fetching and parsing data', error);
+  //     });
+  // }
 
   render() {
 

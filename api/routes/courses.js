@@ -91,9 +91,13 @@ router.post('/', [
         Course.findOne({ where: {title: req.body.title} })
         .then((course) => {
             if (course) {
-                const error = new Error('This course already exists'); //throw custom error    
-                error.status = 409;
-                next(error); // pass error along to global error handler
+                res.status(400);
+                const errorMessages = [];
+                errorMessages.push("This course already exists")
+                return res.json(errorMessages);
+                // const error = new Error('This course already exists'); //throw custom error    
+                // error.status = 409;
+                // next(error); // pass error along to global error handler
             } else {
                 //req.body contains a json object with the values of the form which maps 1:1 to the Course model.
                 req.body.userId = req.currentUser.id;                

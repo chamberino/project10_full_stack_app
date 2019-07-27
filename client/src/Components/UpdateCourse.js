@@ -1,5 +1,3 @@
-import { withRouter, Route } from 'react-router-dom';
-import { Redirect } from 'react-router-dom'
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -39,40 +37,6 @@ constructor(props) {
         errors: [],
         };
     }
-
-    // componentDidMount() {
-    //   // {/* componentDidMount is called immediately after a component is loaded to the DOM so if you need to load external data right when a component gets mounted to the DOM, this is a good place */}
-    //   this.getCourse()
-    // }
-    
-    // getCourse = () => {
-    //   axios.get(`http://localhost:5000/api/courses/${this.state.courseId}`)
-    //     .then(response => {
-    //       this.setState({
-    //         course: response.data,
-    //         loading: false,
-    //       })
-    //     })
-    //     .catch(error => {
-    //         error.status = 400;
-    //         this.setState({
-    //           error: "Error Handling",
-    //           loading: false,
-    //           html: <Route exact path="/courses/:id" render= {() => <p>{ error.response.data.message }</p>  } />
-    //         })
-    //     });
-    // }
-
-    // onSearchChange = e => {
-    //     this.setState({  searchText: e.target.value });
-    // }
-
-    // handleSubmit = e => {
-    //     e.preventDefault()
-    //     // this.props.history.push(`/search/${this.state.searchText}`);
-    //     this.props.onSearch(this.search.value);
-    //     e.currentTarget.reset();
-    // }
 
   render() {
     const {
@@ -134,7 +98,7 @@ constructor(props) {
                             id="estimatedTime" 
                             name="estimatedTime" 
                             type="text"   
-                            value={this.estimatedTime}
+                            value={estimatedTime}
                             className="course--time--input" 
                             placeholder={estimatedTime} 
                             // defaultValue={estimatedTime}
@@ -158,7 +122,6 @@ constructor(props) {
                     </ul>
                   </div>
                 </div>
-                {/* <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick="event.preventDefault(); location.href='course-detail.html';">Cancel</button></div>           */}
               </React.Fragment>
             )}  />
         </div>
@@ -207,25 +170,22 @@ constructor(props) {
       .then((response) => {
         if (response.status !== 204) {
           this.setState({ errors: response });
-          this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})
+          this.setState({title: this.state.title, description: this.state.preservedDescription})
         } else {
-          console.log(response);
+          
           this.setState({ errors: response });
           this.setState({title: title, description: description});
-          // context.actions.update(coursePayload, courseId, credentials)
-          //   .then(() => {
-      
-              this.props.history.push(`/courses/${courseId}`);
-          //   })
+          console.log(this.state.title);
           return response
           // console.log(`SUCCESS! ${emailAddress} is now signed in!`);
-        }
+        }        
       })
       .catch((error) => {
         console.error(error);
         // catch errors and push new route to History object
-        // this.props.history.push('/error');
+        this.props.history.push('/error');
       });
+      this.props.history.push(`/courses/${courseId}`);
   }
 
   delete = () => {
@@ -240,12 +200,37 @@ constructor(props) {
 }
 
 
-// {/* <form className="search-form" onSubmit={this.handleSubmit}>
-//         <input type="search" onChange={this.onSearchChange} name="search" ref={(input) => this.search = input} placeholder="Search" required=""/>
-//         <button type="submit" className="search-button">
-//           <svg fill="#fff" height="24" viewBox="0 0 23 23" width="24" xmlns="http://www.w3.org/2000/svg">
-//             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-//             <path d="M0 0h24v24H0z" fill="none"></path>
-//           </svg>
-//         </button>
-//       </form> */}
+
+    // componentDidMount() {
+    //   // {/* componentDidMount is called immediately after a component is loaded to the DOM so if you need to load external data right when a component gets mounted to the DOM, this is a good place */}
+    //   this.getCourse()
+    // }
+    
+    // getCourse = () => {
+    //   axios.get(`http://localhost:5000/api/courses/${this.state.courseId}`)
+    //     .then(response => {
+    //       this.setState({
+    //         course: response.data,
+    //         loading: false,
+    //       })
+    //     })
+    //     .catch(error => {
+    //         error.status = 400;
+    //         this.setState({
+    //           error: "Error Handling",
+    //           loading: false,
+    //           html: <Route exact path="/courses/:id" render= {() => <p>{ error.response.data.message }</p>  } />
+    //         })
+    //     });
+    // }
+
+    // onSearchChange = e => {
+    //     this.setState({  searchText: e.target.value });
+    // }
+
+    // handleSubmit = e => {
+    //     e.preventDefault()
+    //     // this.props.history.push(`/search/${this.state.searchText}`);
+    //     this.props.onSearch(this.search.value);
+    //     e.currentTarget.reset();
+    // }

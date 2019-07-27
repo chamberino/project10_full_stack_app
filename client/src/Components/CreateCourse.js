@@ -48,15 +48,6 @@ export default class CreateCourseWithContext extends Component {
             // the input fields to be used in each of the forms:
             elements={() => (
               <React.Fragment>
-          {/* <div>
-            <h2 className="validation--errors--label">Validation errors</h2>
-            <div className="validation-errors">
-              <ul>
-                <li>Please provide a value for "Title"</li>
-                <li>Please provide a value for "Description"</li>
-              </ul>
-            </div>
-          </div> */}
             <div className="grid-66">
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
@@ -120,7 +111,6 @@ export default class CreateCourseWithContext extends Component {
                 </ul>
               </div>
             </div>
-            {/* <div className="grid-100 pad-bottom"><button className="button" type="submit">Create Course</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button></div> */}
         </React.Fragment>
           )} />
       </div>

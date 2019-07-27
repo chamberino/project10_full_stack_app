@@ -130,6 +130,46 @@ export default class Data {
     }
   }
 
+  async getCourses() {
+    // await the results returned from the api method 
+    const response = await this.api(`/api/courses/`, 'GET', null, false);
+    // If user is created and a 201 status is set, return empty array
+    if (response.status === 200) {
+      const courses = await response.json();
+      return courses
+    }
+    // If there is a problem creating the user, return the data
+    // Which will be the error data
+    else if (response.status !== 200) {
+      console.log(response)
+      return response.json().then(data => data);
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+  async getCourse(id) {
+    // await the results returned from the api method 
+    const response = await this.api(`/api/courses/${id}`, 'GET', null, false);
+    // If user is created and a 201 status is set, return empty array
+    if (response.status === 200) {
+      const course = await response.json();
+      return course
+    }
+    // If there is a problem creating the user, return the data
+    // Which will be the error data
+    else if (response.status !== 200) {
+      console.log(response)
+      return response.json().then(data => data);
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+
+
 }
 
 

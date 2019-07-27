@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 export default class DeleteCourseWithContext extends Component {
-    // const credentials = {emailAddress: props.context.authenticatedUser.user.emailAddress, password: props.context.authenticatedUser.password}
-    // props.context.actions.delete(props.match.params.id, credentials);
 
     constructor(props) {
     super();
@@ -20,6 +18,7 @@ export default class DeleteCourseWithContext extends Component {
 
   componentDidMount() {
     this.deleteCourse()
+    this.props.history.push(`/courses/`);
   }
 
   deleteCourse = () => {

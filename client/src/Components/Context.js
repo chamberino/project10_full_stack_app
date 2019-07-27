@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Data from './Data';
+import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const jwt = require('jsonwebtoken');
@@ -12,7 +13,8 @@ export class Provider extends Component {
     // if a an 'authenticatedUser' cookie exists, then state is set to it's value
     // Otherwise the value of authenticatedUser is null and a user will have to sign-in to view
     // private routes
-    authenticatedUser: Cookies.getJSON('authenticatedUser') || null
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
+    courses: []
   };
 
   constructor() {
@@ -37,7 +39,9 @@ export class Provider extends Component {
         signIn: this.signIn,
         signOut: this.signOut,
         update: this.update,
-        delete: this.DeleteCourse
+        delete: this.DeleteCourse,
+        getCourses: this.getCourses,
+        getCourse: this.getCourse
       },
     };
     return (
@@ -45,6 +49,10 @@ export class Provider extends Component {
         {this.props.children}
       </Context.Provider>  
     );
+  }
+
+  componentDidMount() {
+
   }
 
   // retrieve a registered user's credentials from the server
@@ -59,7 +67,8 @@ export class Provider extends Component {
     if (user !== null) {
       this.setState(() => {
         return {
-          authenticatedUser: {user, password: password}
+          authenticatedUser: {user, password: password},
+          courses: []
         };
       });
       // Set cookie named authenticated user with js-cookie
@@ -97,6 +106,16 @@ export class Provider extends Component {
   DeleteCourse = async (courseId, credentials) => {
     const deleteCourse = await this.data.delete(courseId, credentials)
     return deleteCourse;
+  }
+
+  getCourses = async () => {
+    const courses = await this.data.getCourses()
+    return courses;
+  }
+
+  getCourse = async (id) => {
+    const course = await this.data.getCourses(id)
+    return course;
   }
 
 }

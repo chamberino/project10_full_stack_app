@@ -109,6 +109,7 @@ export default class UserSignUp extends Component {
       emailAddress,
       password
     };
+    console.log(user)
 
     // Create user by calling the createUser function made available through Context
     // passing in the user data.

@@ -1,14 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PrivateRoute2 from '../../PrivateRoute';
-// import { 
-//     Route, 
-//     NavLink, 
-//     Redirect 
-// } from 'react-router-dom';
-// import UpdateCourse from '../UpdateCourse';
-
-/* This component receives its props from CourseDetail*/
 
 const CourseDetailContainer = props => {
     console.log(props)

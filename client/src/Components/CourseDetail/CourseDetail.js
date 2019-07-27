@@ -45,6 +45,7 @@ export default class CourseDetail extends Component {
     super();
     // {/* this.state contains the course data we want to display */}
     this.state= {
+      id: props.match.params.id,
       course: {},
       courseURL: props.match.url,
       loading: true,
@@ -61,8 +62,9 @@ export default class CourseDetail extends Component {
   getCourse = () => {
     axios.get(`http://localhost:5000/api${this.state.courseURL}`)
       .then(response => {
+        console.log(response.data.id)
         this.setState({
-          courseCreatorId: response.userId,
+          courseCreatorId: response.data.userId,
           course: response.data,
           loading: false,
           html: <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainerWithContext courseCreatorId={this.state.courseCreatorId} authenticatedUserId={this.state.authenticatedUser} course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
@@ -103,6 +105,20 @@ export default class CourseDetail extends Component {
 }
 
 
+
+
+// componentDidMount() {
+//   this.props.context.actions.getCourse(this.state.id)
+//     .then(course=>{
+//       console.log(course)
+//       this.setState({
+//         courseCreatorId: course.id,
+//         course: course.title,
+//         loading: false,
+//         html: <Route exact path="/courses/:id" render= {({match})=> <CourseDetailContainerWithContext courseCreatorId={this.state.courseCreatorId} authenticatedUserId={this.state.authenticatedUser} course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
+//       })
+//     })
+// }
 
 
 // render() {

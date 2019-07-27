@@ -13,15 +13,8 @@ export default class Courses extends Component {
       };
     }
 
-    componentDidMount() {
-      // console.log(this.state);
-      // console.log(this.state.courseCreatorId);
-    }
-
   render() {
-    // console.log(this.state);
-    // console.log(this.state.courseCreatorId);
-    
+
     return (
       <div className="bounds">
         <div className="grid-100">
