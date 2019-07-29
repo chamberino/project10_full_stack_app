@@ -18,11 +18,15 @@ import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
 import Authenticated from './Components/Authenticated';
+import DeleteCourse from './Components/DeleteCourse';
+import ErrorPage from './Components/Error';
+
 
 // Connect the App Component to Context
 import withContext from './Components/Context';
 // Import the PrivateRoute Component
 import PrivateRoute from './PrivateRoute';
+import UpdateCourse from './Components/UpdateCourse';
 
 
 // Initialize a variable named UserSignUpWithContext. 
@@ -37,7 +41,9 @@ const UserSignOutWithContext = withContext(UserSignOut);
 const CourseDetailWithContext = withContext(CourseDetail);
 const CreateCourseWithContext = withContext(CreateCourse);
 const CoursesWithContext = withContext(Courses);
-const errorFormWithContext = withContext(NotFound);
+const NotFoundWithContext = withContext(NotFound);
+const UpdateCourseWithContext = withContext(UpdateCourse)
+const DeleteCourseWithContext = withContext(DeleteCourse);
 
 export default class App extends Component {
   // Constructor initializes state //
@@ -52,15 +58,22 @@ export default class App extends Component {
         <HeaderWithContext />
         <Switch>
           <Route exact path="/" render={ () => <Redirect to="/courses/" /> } />
-          <PrivateRoute test="test" path="/authenticated" component={AuthWithContext} />
+          <PrivateRoute path="/authenticated" component={AuthWithContext} />
+
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
-          <Route exact path="/courses/create-course/" component={CreateCourseWithContext}/>
-          <PrivateRoute exact path="/courses" component={CoursesWithContext} />
+          
+          <PrivateRoute exact path="/courses/create-course/" component={CreateCourseWithContext}/>
+          <Route exact path="/courses" component={CoursesWithContext} />
+          <PrivateRoute path="/courses/:id/update-course/" component={UpdateCourseWithContext} />
+          <PrivateRoute path="/courses/:id/delete-course/" component={DeleteCourseWithContext} />
           {/* The course id path used to be rendered with render props mounting the CourseDetail component. match and title were passed in as props. */}
-          <PrivateRoute path="/courses/:id" component={CourseDetailWithContext} />
-          <Route component={errorFormWithContext}/>
+          <Route path="/courses/:id" component={CourseDetailWithContext} />
+
+          <Route exact path="/not-found" component={NotFoundWithContext}/>
+          <Route exact path="/error" component={ErrorPage}/>
+          <Route component={NotFoundWithContext}/>
           {/* <Route component={NotFound}/> */}
           {/* <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match}/> } />       */}
         </Switch>

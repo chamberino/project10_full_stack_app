@@ -1,6 +1,5 @@
 'use strict'
 
-var express = require('express');
 var User = require("../models").User;
 var bcrypt = require('bcryptjs');
 var auth = require('basic-auth');

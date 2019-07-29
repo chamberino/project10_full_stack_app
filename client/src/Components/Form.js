@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 // The Form component exports a function that renders any 
 // validation errors sent from the API, via the <ErrorsDisplay> function component. 
 // It also renders the "Submit" and "Cancel" buttons of a form, 

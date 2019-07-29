@@ -14,7 +14,8 @@ export class Provider extends Component {
     // Otherwise the value of authenticatedUser is null and a user will have to sign-in to view
     // private routes
     authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
-    courses: []
+    courses: [],
+    coursetest: {}
   };
 
   constructor() {
@@ -92,13 +93,11 @@ export class Provider extends Component {
 
   upDateCourse = async (title, description, estimatedTime=null, materialsNeeded=null, courseId) => {
     const update = await this.data.upDate(title, description, estimatedTime, materialsNeeded, courseId);
-    // conditionally set authenticated 
     return update
   }
 
   CreateCourse = async (title, description, estimatedTime=null, materialsNeeded=null) => {
     const newCourse = await this.data.create(title, description, estimatedTime, materialsNeeded);
-    // conditionally set authenticated 
     console.log(newCourse);
     return newCourse;
   }
@@ -114,7 +113,12 @@ export class Provider extends Component {
   }
 
   getCourse = async (id) => {
-    const course = await this.data.getCourses(id)
+    const course = await this.data.getCourse(id)
+    this.setState(() => { 
+      return {
+        coursetest: course,
+      }
+    });
     return course;
   }
 

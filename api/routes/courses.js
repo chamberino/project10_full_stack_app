@@ -84,9 +84,6 @@ router.post('/', [
         // Create custom error with 400 status code
         res.status(400);
         return res.json(errorMessages);
-        // const error = new Error(errorMessages);
-        // error.status = 400;
-        // next(error); // pass error along to global error handler
     } else {
         Course.findOne({ where: {title: req.body.title} })
         .then((course) => {
@@ -95,9 +92,6 @@ router.post('/', [
                 const errorMessages = [];
                 errorMessages.push("This course already exists")
                 return res.json(errorMessages);
-                // const error = new Error('This course already exists'); //throw custom error    
-                // error.status = 409;
-                // next(error); // pass error along to global error handler
             } else {
                 //req.body contains a json object with the values of the form which maps 1:1 to the Course model.
                 req.body.userId = req.currentUser.id;                
@@ -154,9 +148,6 @@ router.put('/:id', [
         // Create custom error with 400 status code
         res.status(400);
         return res.json(errorMessages);
-        // const error = new Error(errorMessages);
-        // error.status = 400;
-        // next(error); // pass error along to global error handler
     } else {
         // Get course by id
         Course.findByPk(req.params.id)

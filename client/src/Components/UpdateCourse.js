@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-
 import Form from './Form';
 
 /* 
@@ -21,8 +19,8 @@ constructor(props) {
         super();
         // {/* this.state is going to be the gif data we want to display */}
         this.state= {
-        preservedTitle: props.course.title, 
-        preservedDescription: props.course.description,
+        // preservedTitle: props.course.title, 
+        // preservedDescription: props.course.description,
         cancelURL: props.cancelURL,    
         match: props.match,
         courseId: props.match.params.id,         
@@ -30,13 +28,41 @@ constructor(props) {
         courseURL: props.match.url,
         loading: true,
         searchText: '',
-        title: props.course.title,
-        description: props.course.description,
-        estimatedTime: props.course.estimatedTime,
-        materialsNeeded: props.course.materialsNeeded,
+        // title: props.course.title,
+        // description: props.course.description,
+        // estimatedTime: props.course.estimatedTime,
+        // materialsNeeded: props.course.materialsNeeded,
         errors: [],
         };
     }
+
+  componentDidMount() {
+    console.log('I mounted')
+    this.props.context.actions.getCourse(this.state.courseId)
+      .then(course=>{
+          if (course.errorStatus) {
+            this.props.history.push(`/not-found`);
+          } else {
+          console.log(course)
+          this.setState({
+            title: course.title,
+            description: course.description,
+            preservedTitle: course.title, 
+            preservedDescription: course.description,
+            estimatedTime: course.estimatedTime,
+            materialsNeeded: course.materialsNeeded,
+            courseCreatorId: course.id,
+            course: course,
+            loading: false,
+            errors: []
+          })
+        }
+      }).catch((error) => {
+        console.error(error);
+        // catch errors and push new route to History object
+        this.props.history.push('/error');
+      })
+  }
 
   render() {
     const {
@@ -48,6 +74,9 @@ constructor(props) {
     } = this.state;
     
     return (
+      (this.state.loading)
+      ? 'loading...'
+      :
         <div className="bounds course--detail">
         <h1>Update Course</h1>
         <div>
@@ -148,7 +177,12 @@ constructor(props) {
     // about the pathname an unauthenticated user redirected from (via this.props.location.state). 
     // const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
     // unpack properties from state
-    const { title, description, estimatedTime, materialsNeeded, } = this.state;
+    const { 
+      title, 
+      description, 
+      estimatedTime, 
+      materialsNeeded, 
+    } = this.state;
     
     const coursePayload = {
       title, 
@@ -170,67 +204,24 @@ constructor(props) {
       .then((response) => {
         if (response.status !== 204) {
           this.setState({ errors: response });
-          this.setState({title: this.state.title, description: this.state.preservedDescription})
+          this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})
         } else {
-          
           this.setState({ errors: response });
           this.setState({title: title, description: description});
-          console.log(this.state.title);
+
+          this.props.history.push(`/courses/${this.state.courseId}`);
           return response
-          // console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }        
       })
       .catch((error) => {
         console.error(error);
         // catch errors and push new route to History object
         this.props.history.push('/error');
-      });
-      this.props.history.push(`/courses/${courseId}`);
-  }
-
-  delete = () => {
-    // access the history object via props, and push the error route
-    this.props.history.push('/');
+      });      
   }
 
   cancel = () => {
     // access the history object via props, and push the error route
-    this.props.history.push('/');
+    this.props.history.push(`/courses/${this.state.courseId}`);
   }
 }
-
-
-
-    // componentDidMount() {
-    //   // {/* componentDidMount is called immediately after a component is loaded to the DOM so if you need to load external data right when a component gets mounted to the DOM, this is a good place */}
-    //   this.getCourse()
-    // }
-    
-    // getCourse = () => {
-    //   axios.get(`http://localhost:5000/api/courses/${this.state.courseId}`)
-    //     .then(response => {
-    //       this.setState({
-    //         course: response.data,
-    //         loading: false,
-    //       })
-    //     })
-    //     .catch(error => {
-    //         error.status = 400;
-    //         this.setState({
-    //           error: "Error Handling",
-    //           loading: false,
-    //           html: <Route exact path="/courses/:id" render= {() => <p>{ error.response.data.message }</p>  } />
-    //         })
-    //     });
-    // }
-
-    // onSearchChange = e => {
-    //     this.setState({  searchText: e.target.value });
-    // }
-
-    // handleSubmit = e => {
-    //     e.preventDefault()
-    //     // this.props.history.push(`/search/${this.state.searchText}`);
-    //     this.props.onSearch(this.search.value);
-    //     e.currentTarget.reset();
-    // }

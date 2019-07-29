@@ -50,26 +50,19 @@ export default class Data {
   }
 
   async update(coursePayload, courseId, credentials) {
-    console.log(coursePayload)
-    // const course = await 
+    // await the results returned from the api method 
     const response = await this.api(`/api/courses/${courseId}`, 'PUT', coursePayload, true, credentials);
     if (response.status === 204) {
       return response
+    } 
+    else if (response.status !== 204) {
+      return response.json().then(data => data);
     } else {
-      if (response.status !== 204) {
-        return response.json().then(data => data);
-      }
-      // else if (response.status === 401) {
-      //   return null;
-      // }
-      else {
         throw new Error();
-      }
     }
   }
 
   async create(coursePayload, credentials) {
-    console.log(credentials)
     // await the results returned from the api method 
     const response = await this.api('/api/courses', 'POST', coursePayload, true, credentials);
     // If user is created and a 201 status is set, return empty array
@@ -116,7 +109,7 @@ export default class Data {
     const response = await this.api(`/api/courses/${courseId}`, 'DELETE', null, true, credentials);
     // If user is created and a 201 status is set, return empty array
     if (response.status === 204) {
-      console.log(response)
+      console.log('delete:', response)
       return response;
     }
     // If there is a problem creating the user, return the data

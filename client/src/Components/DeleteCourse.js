@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Component } from 'react';
 
 export default class DeleteCourseWithContext extends Component {
 
@@ -17,19 +16,14 @@ export default class DeleteCourseWithContext extends Component {
   }
 
   componentDidMount() {
-    this.deleteCourse()
-    this.props.history.push(`/courses/`);
+    this.deleteCourse().then(()=>{this.props.history.push('/');})
   }
 
-  deleteCourse = () => {
-    this.state.deleteCourse(this.state.courseId, this.state.credentials)
+  deleteCourse = async () => {
+    await this.state.deleteCourse(this.state.courseId, this.state.credentials)
   }
 
   render() {
-    console.log(this.state.deleteCourse)
-
-    return (
-      <Redirect to="/courses" />
-    );
+    return null
   }
 }

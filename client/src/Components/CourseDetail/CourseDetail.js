@@ -3,16 +3,12 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 import withContext from '../Context';
 import CourseDetailContainer from './CourseDetailContainer';
-import UpdateCourse  from '../UpdateCourse';
 import NotFound from '../NotFound';
-import DeleteCourse from '../DeleteCourse';
 
-const UpdateCourseWithContext = withContext(UpdateCourse);
 const CourseDetailContainerWithContext = withContext(CourseDetailContainer);
-const DeleteCourseWithContext = withContext(DeleteCourse);
 
 
 /* 
@@ -49,51 +45,51 @@ export default class CourseDetail extends Component {
       course: {},
       courseURL: props.match.url,
       loading: true,
-      authenticatedUser: props.context.authenticatedUser.user.id,
+      authenticatedUser: {},
       context: props.context.actions.delete
     };
   }
-  
+
   componentDidMount() {
-    // {/* componentDidMount is called immediately after a component is loaded to the DOM so if you need to load external data right when a component gets mounted to the DOM, this is a good place */}
-    this.getCourse()
-  }
-  
-  getCourse = () => {
-    axios.get(`http://localhost:5000/api${this.state.courseURL}`)
-      .then(response => {
-        console.log(response.data.id)
-        this.setState({
-          courseCreatorId: response.data.userId,
-          course: response.data,
-          loading: false,
-          html: <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainerWithContext courseCreatorId={this.state.courseCreatorId} authenticatedUserId={this.state.authenticatedUser} course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
-        })
+    if (this.props.context.authenticatedUser) {
+      this.setState({
+      authenticatedUser: this.props.context.authenticatedUser.user.id 
       })
-      .catch(error => {
-          error.status = 400;
+    }
+    this.props.context.actions.getCourse(this.state.id)
+      .then(course=>{
+        if (course.errorStatus) {
+          this.props.history.push(`/not-found`);
+        } else {
+          console.log(course)
           this.setState({
-            error: error.response.data.message,
+            courseCreatorId: course.id,
+            course: course,
             loading: false,
-            html: <Route path="/courses/:id" render= {() => <p>{ error.response.data.message }</p>  } />
+            jsx: <Route exact path="/courses/:id" render= {({match})=> 
+              <CourseDetailContainerWithContext 
+                courseCreatorId={this.state.courseCreatorId} 
+                authenticatedUserId={this.state.authenticatedUser} 
+                course={this.state.course} 
+                updateLink={this.state.courseURL} 
+                match={match}/> } /> 
           })
-      });
+        }
+      }).catch((error) => {
+        console.error(error);
+        // catch errors and push new route to History object
+        this.props.history.push('/error');
+      })
   }
 
   render() {
     return (    
       <div>
       <Switch>
-      <Route exact path="/courses/:id/delete/" render = { ({match, history}) => <DeleteCourseWithContext match={match} history={history} courseId={this.state.course.id}/>  } />
-        {
-          (this.state.loading)
-          ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />
-          : <Route exact path="/courses/:id/update-course/" render={ ({match, history}) => (this.state.authenticatedUser !== this.state.course.userId) ?<p>Unauthorized</p> :<UpdateCourseWithContext title={'About'} match={match} history={history} course={this.state.course} cancelURL={this.state.courseURL} loading={this.state.loading} errors={this.state.error}/> } />          
-        }
         {
           (this.state.loading)
           ? <Route exact path="/courses/:id" render= {() => <p>Loading...</p>  } />
-          : (this.state.html)
+          : (this.state.jsx)
         }
         <Route component={NotFound}/>
       </Switch>
@@ -103,55 +99,3 @@ export default class CourseDetail extends Component {
     );
   }
 }
-
-
-
-
-// componentDidMount() {
-//   this.props.context.actions.getCourse(this.state.id)
-//     .then(course=>{
-//       console.log(course)
-//       this.setState({
-//         courseCreatorId: course.id,
-//         course: course.title,
-//         loading: false,
-//         html: <Route exact path="/courses/:id" render= {({match})=> <CourseDetailContainerWithContext courseCreatorId={this.state.courseCreatorId} authenticatedUserId={this.state.authenticatedUser} course={this.state.course} updateLink={this.state.courseURL} match={match}/> } /> 
-//       })
-//     })
-// }
-
-
-// render() {
-//   return (    
-//     <div>
-//     <Switch>
-//       <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />
-//       {
-//         (this.state.loading)
-//         ? <Route exact path="/courses/:id" render= {() => <p>Loading...</p>  } />
-//         : (this.state.html)
-//       }
-//       {
-//         (this.state.loading)
-//         ? <Route exact path="/courses/:id/update-course/" render= {() => <p>Loading...</p>  } />
-//         : <Route exact path="/courses/:id/update-course/" render={ ({match, history}) => <UpdateCourseWithContext title={'About'} match={match} history={history} course={this.state.course} cancelURL={this.state.courseURL}/> } />
-
-//       }
-//       <Route component={NotFound}/>
-//     </Switch>
-//       <div className="main-content">
-//       </div>
-//     </div>
-//   );
-// }
-// }
-
-
-
-
-//* <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourseWithContext title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } /> */} */}
-
-//* <Route exact path="/courses/:id" render= {({match})=><CourseDetailContainer course={this.state.course} updateLink={this.state.courseURL} match={match}/> } />  */}
-
-
-// : <Route exact path="/courses/:id/update-course/" render={ ({match}) => <UpdateCourse title={'About'} match={match} course={this.state.course} cancelURL={this.state.courseURL}/> } />

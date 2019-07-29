@@ -1,4 +1,3 @@
-import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import Form from './Form';
 
@@ -161,7 +160,6 @@ export default class CreateCourseWithContext extends Component {
     // passing in the user data.
     context.data.create(coursePayload, credentials)
     .then((response) => {
-      console.log(response.headers)
       if (response.status !== 201) {
         this.setState({ errors: response });
         this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})

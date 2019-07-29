@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+
 
 const CourseDetailContainer = props => {
-    console.log(props)
+        
     return (
         <div>
-            
             {/* check userId against authenticated UsersId to determine if edit buttons display*/}
             {
           (props.authenticatedUserId === props.course.userId)
@@ -15,7 +16,7 @@ const CourseDetailContainer = props => {
                         <span>
                             <Link className="button" to={`${props.match.url}/update-course`}>Update Course</Link>
                         </span>
-                    <Link className="button" to={`/courses/${props.course.id}/delete`}>Delete Course</Link>
+                    <Link className="button" to={`/courses/${props.course.id}/delete-course`}>Delete Course</Link>
                     <Link className="button button-secondary" to="/courses">Return to List</Link>
                 </div>
             </div>
@@ -36,7 +37,7 @@ const CourseDetailContainer = props => {
                 <p>By Joe Smith</p>
                 </div>
                 <div className="course--description">
-                <p>{props.course.description}</p>
+                <ReactMarkdown source={props.course.description} />
                 </div>
             </div>
             <div className="grid-25 grid-right">
@@ -47,19 +48,12 @@ const CourseDetailContainer = props => {
                     <h3>{props.course.estimatedTime}</h3>
                     </li>
                     <li className="course--stats--list--item">
-                    <h4>Materials Needed</h4>
-                    <ul>
-                        <li>{props.course.materialsNeeded}</li>
-                    </ul>
+                    <ReactMarkdown source={props.course.materialsNeeded} />
                     </li>
                 </ul>
                 </div>
             </div>
             </div>
-            {/* <Route exact path="/courses/:id" render={ ({match}) => <CourseDetailContainer title={'About'} match={match}/> } /> */}
-
-            {/* <Route path={`${props.match.url}update-course`} render={ ({match}) => <UpdateCourse  /> } /> */}
-            {/* <Route path="/courses/html" component={HTML} /> */}
         </div>
     );
 }
