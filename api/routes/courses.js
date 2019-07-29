@@ -102,8 +102,13 @@ router.post('/', [
                         error.status =400;
                         next(error); // pass error along to global error handler
                     } else {
-                        res.location(`/api/courses/${course.id}`);
-                        res.status(201).end();
+                        res.locals.courseId = course.Id;
+                        console.log(res)
+                        // res.location(`/api/courses/${course.id}`);                        
+                        // res.status(201)
+                        // res.json(course.id); 
+                        res.locals.id = course.id;
+                        res.status(201).send({id: course._id});                         
                     }
                 }).catch((error)=> {  // check for errors within body
                     if (error.name === "SequelizeValidationError") {

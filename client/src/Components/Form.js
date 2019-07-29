@@ -31,7 +31,7 @@ export default (props) => {
       <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         { elements() }
-        <div className="pad-bottom">
+        <div className="pad-bottom form-buttons grid-66">
           <button className="button" type="submit">{submitButtonText}</button>
           <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
         </div>

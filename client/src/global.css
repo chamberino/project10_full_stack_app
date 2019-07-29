@@ -251,6 +251,7 @@ body {
 .header nav {
   float: right;
   margin-top: 3px;
+  margin-right: 10px;
 }
 /* line 37, ../sass/global.sass */
 .header nav a {
@@ -350,7 +351,8 @@ p {
 .course--module {
   background: #7c689b;
   border-radius: 8px;
-  padding: 30px;
+  /* padding: 30px; */
+  text-align: center;
   margin-bottom: 30px;
   min-height: 107px;
   display: block;
@@ -735,6 +737,12 @@ input:focus {
   padding-bottom: 40px;
 }
 
+.form-buttons {
+  /* display: flex;
+  justify-content: end;
+  align-items: flex-end; */
+}
+
 /* added additional class name for header elements */
 .signout {
   margin-top: 60px;
@@ -743,7 +751,7 @@ input:focus {
 /* styles the signed in user's name in the header */
 .header nav span {
   color: #fff;
-  margin-left: 20px;
+  margin-left: 25px;
 }
 
 /* styles the validation errors */

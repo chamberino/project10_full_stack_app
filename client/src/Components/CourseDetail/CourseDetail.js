@@ -3,7 +3,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
 import withContext from '../Context';
 import CourseDetailContainer from './CourseDetailContainer';
 import NotFound from '../NotFound';
@@ -61,7 +60,6 @@ export default class CourseDetail extends Component {
         if (course.errorStatus) {
           this.props.history.push(`/not-found`);
         } else {
-          console.log(course)
           this.setState({
             courseCreatorId: course.id,
             course: course,
@@ -76,7 +74,6 @@ export default class CourseDetail extends Component {
           })
         }
       }).catch((error) => {
-        console.error(error);
         // catch errors and push new route to History object
         this.props.history.push('/error');
       })

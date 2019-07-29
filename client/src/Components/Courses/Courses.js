@@ -3,7 +3,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import axios from 'axios';
 import NewCourseLink from '../NewCourseLink'
 import CourseContainer from './CourseContainer'
 
@@ -41,22 +40,6 @@ export default class Courses extends Component {
         })
       })
   }
-
-  // getCourses = () => {
-  //   axios.get('http://localhost:5000/api/courses')
-  //     .then(response => {
-  //       this.setState({
-  //         courses: response.data,
-  //         loading: false
-  //       })
-  //     })
-  //     .catch(error => {
-  //       // this.setState({
-  //       //   loading: false
-  //       // })
-  //       console.log('Error fetching and parsing data', error);
-  //     });
-  // }
 
   render() {
 

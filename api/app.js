@@ -11,7 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var coursesRouter = require('./routes/courses');
 
-var cors = require('cors');
+// var cors = require('cors');
 
 const options = {
   dialect: 'sqlite',
@@ -48,9 +48,23 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 const app = express();
 
 //cors cross-origin request enabling middleware
-app.use(cors({                                                                 
-  exposedHeaders:['Location'],                                                                                                                         
-}));
+// app.use(cors({                                                                 
+//   exposedHeaders:['Location'],                                                                                                                         
+// }));
+
+//CORS
+app.use(function(req, res, next){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Location");
+  if(req.method === "OPTIONS") {
+      res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
+      return res.status(200).json({});
+  }
+  next();
+});
+
+app.use(require("body-parser").json());
 
 //JSON parser
 app.use(express.json());

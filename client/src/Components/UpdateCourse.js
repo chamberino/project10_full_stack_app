@@ -37,13 +37,11 @@ constructor(props) {
     }
 
   componentDidMount() {
-    console.log('I mounted')
     this.props.context.actions.getCourse(this.state.courseId)
       .then(course=>{
           if (course.errorStatus) {
             this.props.history.push(`/not-found`);
           } else {
-          console.log(course)
           this.setState({
             title: course.title,
             description: course.description,
@@ -51,14 +49,18 @@ constructor(props) {
             preservedDescription: course.description,
             estimatedTime: course.estimatedTime,
             materialsNeeded: course.materialsNeeded,
-            courseCreatorId: course.id,
+            courseCreatorId: course.userId,
             course: course,
             loading: false,
             errors: []
           })
         }
+      }).then(()=>{
+        if(this.props.context.authenticatedUser.user.id !== this.state.courseCreatorId) {
+          // Check CourseCreatorId against Authenticated User's id to verify permission to page.
+          this.props.history.push('/unauthorized')
+        }
       }).catch((error) => {
-        console.error(error);
         // catch errors and push new route to History object
         this.props.history.push('/error');
       })
@@ -140,7 +142,7 @@ constructor(props) {
                           <textarea 
                             id="materialsNeeded" 
                             name="materialsNeeded" 
-                            value={this.materialsNeeded}
+                            value={materialsNeeded}
                             className="" 
                             placeholder={materialsNeeded} 
                             // defaultValue={materialsNeeded} 
@@ -195,11 +197,7 @@ constructor(props) {
       emailAddress: this.props.context.authenticatedUser.user.emailAddress,
       password: this.props.context.authenticatedUser.password
     }
-    console.log(credentials)
 
-    // call the signIn() function, passing in the users credentials
-    // signIn returns a promise set to the users credentials or null if invalid 
-    // credentials are sent
     context.data.update(coursePayload, courseId, credentials)
       .then((response) => {
         if (response.status !== 204) {
@@ -214,7 +212,6 @@ constructor(props) {
         }        
       })
       .catch((error) => {
-        console.error(error);
         // catch errors and push new route to History object
         this.props.history.push('/error');
       });      

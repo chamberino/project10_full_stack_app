@@ -20,6 +20,7 @@ import UserSignOut from './Components/UserSignOut';
 import Authenticated from './Components/Authenticated';
 import DeleteCourse from './Components/DeleteCourse';
 import ErrorPage from './Components/Error';
+import Forbidden from './Components/Forbidden'
 
 
 // Connect the App Component to Context
@@ -73,6 +74,7 @@ export default class App extends Component {
 
           <Route exact path="/not-found" component={NotFoundWithContext}/>
           <Route exact path="/error" component={ErrorPage}/>
+          <Route exact path="/unauthorized" component={Forbidden}/>
           <Route component={NotFoundWithContext}/>
           {/* <Route component={NotFound}/> */}
           {/* <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match}/> } />       */}

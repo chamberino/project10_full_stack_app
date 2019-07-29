@@ -92,7 +92,6 @@ export default class UserSignIn extends Component {
         }
       })
       .catch((error) => {
-        console.error(error);
         // catch errors and push new route to History object
         this.props.history.push('/error');
       });

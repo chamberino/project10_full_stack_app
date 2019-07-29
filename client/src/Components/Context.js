@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import Data from './Data';
-import axios from 'axios';
 import Cookies from 'js-cookie';
-
-const jwt = require('jsonwebtoken');
 
 const Context = React.createContext(); 
 
@@ -98,7 +95,6 @@ export class Provider extends Component {
 
   CreateCourse = async (title, description, estimatedTime=null, materialsNeeded=null) => {
     const newCourse = await this.data.create(title, description, estimatedTime, materialsNeeded);
-    console.log(newCourse);
     return newCourse;
   }
 

@@ -90,7 +90,7 @@ export default class CreateCourseWithContext extends Component {
                         type="text" 
                         className="course--time--input" 
                         onChange={this.change} 
-                        // placeholder="Hours" 
+                        placeholder="Hours" 
                         value={estimatedTime} />
                     </div>
                   </li>
@@ -166,17 +166,14 @@ export default class CreateCourseWithContext extends Component {
       } else {
         this.setState({ errors: response });
         this.setState({title: title, description: description, estimatedTime: estimatedTime, materialsNeeded: materialsNeeded});
-    
+        // this.props.history.push(`/courses/${response.data.id}`);
         this.props.history.push(`/courses/`);
-        
         return response
-        // console.log(`SUCCESS! ${emailAddress} is now signed in!`);
       }
     })
     .catch((error) => {
-      console.error(error);
       // catch errors and push new route to History object
-      // this.props.history.push('/error');
+      this.props.history.push('/error');
     });
 }
 

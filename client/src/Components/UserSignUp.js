@@ -109,7 +109,6 @@ export default class UserSignUp extends Component {
       emailAddress,
       password
     };
-    console.log(user)
 
     // Create user by calling the createUser function made available through Context
     // passing in the user data.
@@ -119,18 +118,19 @@ export default class UserSignUp extends Component {
         // The value returned from createUser is an object with the users credentials
         // or an object containing error messages and the status code.
         // If there are any errors, they will be set to a messages property
-        if (errors) {
+        if (errors.length) {
           // if any error messages, set the error state to the value of the errors
           this.setState({ errors });
         } else {
           context.actions.signIn(emailAddress, password)
-            .then( () => {
-              this.props.history.push('/authenticated')
-            })
+          .then( () => {
+            this.props.history.push('/authenticated')
+          }).catch((err)=>{
+            this.props.history.push('/error'); // push to history stack
+          })
         }
       })
       .catch((err) => {
-        console.log(err);
         // access the history object via props, and push the error route
         this.props.history.push('/error'); // push to history stack
       });
