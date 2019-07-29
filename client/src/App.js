@@ -12,23 +12,20 @@ import Header from './Components/Header';
 import Courses from './Components/Courses/Courses';
 import CourseDetail from './Components/CourseDetail/CourseDetail';
 import CreateCourse from './Components/CreateCourse';
-import NotFound from './Components/NotFound';
-// import CreateCourse from './Components/CreateCourse';
 import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
 import Authenticated from './Components/Authenticated';
+import UpdateCourse from './Components/UpdateCourse';
 import DeleteCourse from './Components/DeleteCourse';
 import ErrorPage from './Components/Error';
 import Forbidden from './Components/Forbidden'
-
+import NotFound from './Components/NotFound';
 
 // Connect the App Component to Context
 import withContext from './Components/Context';
 // Import the PrivateRoute Component
 import PrivateRoute from './PrivateRoute';
-import UpdateCourse from './Components/UpdateCourse';
-
 
 // Initialize a variable named UserSignUpWithContext. 
 // Set the value to call withContext(UserSignUp):
@@ -75,9 +72,7 @@ export default class App extends Component {
           <Route exact path="/not-found" component={NotFoundWithContext}/>
           <Route exact path="/error" component={ErrorPage}/>
           <Route exact path="/unauthorized" component={Forbidden}/>
-          <Route component={NotFoundWithContext}/>
-          {/* <Route component={NotFound}/> */}
-          {/* <Route exact path="/courses/create-course/" render={ ({match}) => <CreateCourse title={'About'} match={match}/> } />       */}
+          <Route component={NotFound}/>
         </Switch>
       </BrowserRouter>    
       </div> 

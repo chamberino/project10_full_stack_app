@@ -737,10 +737,43 @@ input:focus {
   padding-bottom: 40px;
 }
 
+.sign-up p {
+  /* display: block;
+  width: 100%; */
+}
+
+.sign-in {
+  margin: none;
+  /* text-align: center; */
+  display: block;
+  width: 100%;
+}
+
+.sign-in-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: auto;
+  padding-left: 100px;
+  /* text-align: center; */
+  padding-bottom: 100px;
+}
+
 .form-buttons {
-  /* display: flex;
-  justify-content: end;
-  align-items: flex-end; */
+  display: flex;
+  width: 200px;
+}
+
+.sign-in-up {
+  width: 33%;
+}
+
+.test {
+  display: block;
+  /* width: 400px; */
+  text-align: center;
+  padding-top: 4em;
+  /* margin: auto; */
 }
 
 /* added additional class name for header elements */
@@ -767,4 +800,10 @@ input:focus {
 /* reduce bottom margin on the course description textarea element */
 .course--description textarea {
   margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 720px) {
+  .sign-in-up {
+    width: 66%;
+  }
 }

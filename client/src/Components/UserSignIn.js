@@ -24,7 +24,7 @@ export default class UserSignIn extends Component {
 
     return (
       <div className="bounds">
-        <div className="grid-33 centered signin">
+        <div className="sign-in-up centered signin">
           <h1>Sign In</h1>
           <Form 
             cancel={this.cancel}
@@ -48,11 +48,13 @@ export default class UserSignIn extends Component {
                   onChange={this.change} 
                   placeholder="Password" />                
               </React.Fragment>
-            )} />
-          <p>
-            Don't have a user account? <Link to="/signup">Click here</Link> to sign up!
+            )} />        
+        </div>      
+        <div className="grid-33 centered signin new">
+            <p className="test">
+            Don't have a user account? <Link to="/signin">Click here</Link> to sign up!
           </p>
-        </div>
+          </div>
       </div>
     );
   }
