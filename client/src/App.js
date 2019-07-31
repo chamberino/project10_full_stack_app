@@ -15,7 +15,6 @@ import CreateCourse from './Components/CreateCourse';
 import UserSignUp from './Components/UserSignUp';
 import UserSignIn from './Components/UserSignIn';
 import UserSignOut from './Components/UserSignOut';
-import Authenticated from './Components/Authenticated';
 import UpdateCourse from './Components/UpdateCourse';
 import DeleteCourse from './Components/DeleteCourse';
 import ErrorPage from './Components/Error';
@@ -28,7 +27,6 @@ import withContext from './Components/Context';
 import PrivateRoute from './PrivateRoute';
 
 const HeaderWithContext = withContext(Header);
-const AuthWithContext = withContext(Authenticated);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
@@ -52,7 +50,6 @@ export default class App extends Component {
         <HeaderWithContext />
         <Switch>        
           <Route exact path="/" render={ () => <Redirect to="/courses/" /> } />
-          <PrivateRoute path="/authenticated" component={AuthWithContext} />
 
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
