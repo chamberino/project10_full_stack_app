@@ -27,10 +27,6 @@ import withContext from './Components/Context';
 // Import the PrivateRoute Component
 import PrivateRoute from './PrivateRoute';
 
-// Initialize a variable named UserSignUpWithContext. 
-// Set the value to call withContext(UserSignUp):
-// This connects the UserSignUp component to context. In other words,
-// UserSignUp is now a consuming component that's subscribed to all context changes.
 const HeaderWithContext = withContext(Header);
 const AuthWithContext = withContext(Authenticated);
 const UserSignUpWithContext = withContext(UserSignUp);
@@ -66,7 +62,6 @@ export default class App extends Component {
           <Route exact path="/courses" component={CoursesWithContext} />
           <PrivateRoute path="/courses/:id/update/" component={UpdateCourseWithContext} />
           <PrivateRoute path="/courses/:id/delete/" component={DeleteCourseWithContext} />
-          {/* The course id path used to be rendered with render props mounting the CourseDetail component. match and title were passed in as props. */}
           <Route path="/courses/:id" component={CourseDetailWithContext} />
 
           <Route exact path="/notfound" component={NotFoundWithContext}/>
