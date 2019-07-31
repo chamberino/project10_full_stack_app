@@ -75,7 +75,7 @@ export default class UserSignIn extends Component {
     const { context } = this.props;
     // The from variable passed to history.push(from) contains information 
     // about the pathname an unauthenticated user redirected from (via this.props.location.state). 
-    const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
+    const { from } = this.props.location.state || { from: { pathname: '/courses' } };
     // unpack username and properties password from state
     const { emailAddress, password } = this.state;
 
