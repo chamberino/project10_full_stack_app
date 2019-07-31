@@ -92,9 +92,7 @@ export default class UserSignUp extends Component {
 
   submit = () => {
     // Data is passed to the component via a prop named context. 
-    // Destructuring is used to extract the value from props. 
     const { context } = this.props;
-    // Destructuring is used to
 
     // unpack the name, username and password properties from 
     // the state object (this.state) into distinct variables
@@ -106,8 +104,8 @@ export default class UserSignUp extends Component {
     } = this.state;
 
     
-    // Initialize a variable named user to an object 
-    // whose properties are name, user and password
+    // Initialize a variable named user containing an object 
+    // with user data to be sent as a payload to the API in a POST request
     const user = {
       firstName,
       lastName,
@@ -115,8 +113,7 @@ export default class UserSignUp extends Component {
       password
     };
 
-    // Create user by calling the createUser function made available through Context
-    // passing in the user data.
+    // Call the createUser method made available through Context passing in the user data.
     context.data.createUser(user)
       .then( errors => {
         // Check to see if errors exist

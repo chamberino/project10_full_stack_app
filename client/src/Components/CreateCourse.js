@@ -17,6 +17,8 @@ export default class CreateCourseWithContext extends Component {
   constructor(props) {
     super();
   this.state= {
+  preservedTitle: '',
+  preservedDescription: '',  
   title: '',    
   description: '',                
   estimatedTime: '',
@@ -46,7 +48,7 @@ export default class CreateCourseWithContext extends Component {
             submit={this.submit}
             submitButtonText="Create Course"
             // elements prop is a function  which returns
-            // the input fields to be used in each of the forms:
+            // the input fields to be used in each of the forms
             elements={() => (
               <React.Fragment>
             <div className="grid-66">
@@ -116,6 +118,7 @@ export default class CreateCourseWithContext extends Component {
   }
 
   change = (event) => {
+    // Any changes made in the input fields will update it's corresponding property in state
     const name = event.target.name;
     const value = event.target.value;
 
@@ -130,7 +133,6 @@ export default class CreateCourseWithContext extends Component {
     // Data is passed to the component via a prop named context. 
     // Destructuring is used to extract the value from props. 
     const { context } = this.props;
-    // Destructuring is used to
 
     // unpack the name, username and password properties from 
     // the state object (this.state) into distinct variables
@@ -140,9 +142,11 @@ export default class CreateCourseWithContext extends Component {
       estimatedTime,
       materialsNeeded,
     } = this.state;
+
+    this.setState({ preservedTitle: title, preservedDescription: description });
     
-    // Initialize a variable named user to an object 
-    // whose properties are name, user and password
+    // Initialize a variable named coursePayLoad to an object 
+    // containing the necessary data to make a call to the API to create a course
     const coursePayload = {
       title,
       description,
@@ -150,19 +154,23 @@ export default class CreateCourseWithContext extends Component {
       materialsNeeded,
     };
 
+    // Store the users credentials in an object so it can be passed along to the API to authenticate the user
     const credentials = {
       emailAddress: this.props.context.authenticatedUser.user.emailAddress,
       password: this.props.context.authenticatedUser.password
     }
 
-    // Create user by calling the createUser function made available through Context
-    // passing in the user data.
+    // Create user by calling the create method made available through Context
+    // The course data and users credentials are passed along.
     context.data.create(coursePayload, credentials)
     .then((response) => {
+      // If API returns a response that is not 201, set the errors property in state to the response. 
+      // The response will carry any error messages in an array. The title and description are then initialized.
       if (response.status !== 201) {
         this.setState({ errors: response });
         this.setState({title: this.state.preservedTitle, description: this.state.preservedDescription})
       } else {
+        // The errors property is set to the response, which should be empty. The user is sent to the courses list.
         this.setState({ errors: response });
         this.setState({title: title, description: description, estimatedTime: estimatedTime, materialsNeeded: materialsNeeded});
         this.props.history.push(`/courses/`);

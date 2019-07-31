@@ -20,12 +20,9 @@ export class Provider extends Component {
     this.data = new Data();
   }
 
-
-  // It's common to pass the Provider's value prop an actions object 
-  // to store any event handlers or actions you want to perform on data 
-  // that's passed down through context. Next, we'll need to pass 
-  // the signIn function to <Context.Provider>, 
-  // that way we can call it within any component that's connected to context changes.
+  // Pass the Provider's value prop an actions object 
+  // to store event handlers and actions that will be performed on data. 
+  // These methods are passed down through context.
 
   render() {
     const { authenticatedUser } = this.state;
@@ -50,15 +47,12 @@ export class Provider extends Component {
     );
   }
 
-  // retrieve a registered user's credentials from the server
-  // log in an authenticated user upon submitting the "Sign In" form
   signIn = async (emailAddress, password) => {
     // signIn takes a username and password credentials 
     // to call the getUser() method in Data.js
     // If credentials are valid the returned value will be an object 
-    // containing the authenticated users day or will remain null upon failure
+    // containing the authenticated users data or will remain null upon failure
     const user = await this.data.getUser(emailAddress, password);
-    // conditionally set authenticated 
     if (user !== null) {
       this.setState(() => {
         return {
@@ -66,7 +60,7 @@ export class Provider extends Component {
           courses: []
         };
       });
-      // Set cookie named authenticated user with js-cookie
+      // Set cookie named authenticatedUser with js-cookie
       // The second arg specifies the value to store in the cookie
       // The third arg is optional and can take in various options
       // Below the expiry property is set to a value of 1, which means
@@ -77,6 +71,8 @@ export class Provider extends Component {
   }
 
   signOut = () => {
+    // signOut is an event handler triggered by the sign out link in the Header
+    // Once fired, the authenticatedUser state is set to null and the cookie is removed.
     this.setState(() => { 
       return {
         authenticatedUser: null,

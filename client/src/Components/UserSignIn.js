@@ -80,8 +80,7 @@ export default class UserSignIn extends Component {
     const { emailAddress, password } = this.state;
 
     // call the signIn() function, passing in the users credentials
-    // signIn returns a promise set to the users credentials or null if invalid 
-    // credentials are sent
+    // signIn returns the users credentials or null if invalid 
     context.actions.signIn(emailAddress, password)
       .then((user) => {
         if (user === null) {
@@ -93,7 +92,7 @@ export default class UserSignIn extends Component {
           console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         // catch errors and push new route to History object
         this.props.history.push('/error');
       });

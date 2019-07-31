@@ -1,10 +1,10 @@
 // import config from './config';
 
 export default class Data {
-  // api helper method makes a call to the courses REST API returned the values
-  // returned from the fetch method. The method arguments that specify
-  // the type of HTTP verb, body request object, when basicAuth is requires,
-  // and the users credentials if the page requires basicAuth
+
+  // The api helper method makes a call to the Course Directory API and returns the value from the fetch.
+  // The parameters specify the type of HTTP verb, body request object, 
+  // whether authentication is required, and the users credentials if the page requires authentication.
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = 'http://localhost:5000' + path;
   
@@ -33,8 +33,8 @@ export default class Data {
     return fetch(url, options);
   }
 
-  // pass the api() method inside getUser() values 
-  // for the requiresAuth and credentials arguments.
+  // getUser takes the users credentials and makes a GET request to the API
+  // If successful the users data will be returned, otherwise the function will return null or any errors.
   async getUser(emailAddress, password) {
     const response = await this.api(`/api/users`, 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
@@ -49,6 +49,8 @@ export default class Data {
   }
 
   async getAuthor(id) {
+    // getAuthor makes a GET request to the API passing along the users id to access the relevant endpoint.
+    // If successful, the API will return the users information.
     const response = await this.api(`/api/users/${id}`, 'GET', null, false);
     if (response.status === 200) {
       return response.json().then(data => data);
@@ -62,7 +64,6 @@ export default class Data {
   }
 
   async update(coursePayload, courseId, credentials) {
-    // await the results returned from the api method 
     const response = await this.api(`/api/courses/${courseId}`, 'PUT', coursePayload, true, credentials);
     if (response.status === 204) {
       return response
@@ -75,7 +76,6 @@ export default class Data {
   }
 
   async create(coursePayload, credentials) {
-    // await the results returned from the api method 
     const response = await this.api('/api/courses', 'POST', coursePayload, true, credentials);
     // If user is created and a 201 status is set, return empty array
     if (response.status === 201) {
@@ -93,11 +93,9 @@ export default class Data {
   
   
   // createUser() is an asynchronous operation that returns a promise. 
-  // The resolved value of the promise is either an array of errors 
-  // (sent from the API if the response is 400), 
+  // The resolved value of the promise is either an array of errors (sent from the API if the response is 400), 
   // or an empty array (if the response is 201).
-  // Since this function returns a promise, we use the async keyword
-  // in front of the function
+  // Since this function returns a promise, the async keyword in front of the function
   async createUser(user) {
     // await the results returned from the api method 
     const response = await this.api('/api/users', 'POST', user);
@@ -116,14 +114,12 @@ export default class Data {
   }
 
   async delete(courseId, credentials) {
-    // await the results returned from the api method 
     const response = await this.api(`/api/courses/${courseId}`, 'DELETE', null, true, credentials);
-    // If user is created and a 201 status is set, return empty array
+    // If user is deleted and a 204 status is set, return empty array
     if (response.status === 204) {
       return response;
     }
-    // If there is a problem creating the user, return the data
-    // Which will be the error data
+    // If there is a problem deleting the user, return the error data
     else if (response.status === 500) {
       return response.json().then(data => data);
     }
@@ -133,15 +129,14 @@ export default class Data {
   }
 
   async getCourses() {
-    // await the results returned from the api method 
     const response = await this.api(`/api/courses/`, 'GET', null, false);
-    // If user is created and a 201 status is set, return empty array
+    // Send GET request to API to retrieve list of courses in DB
     if (response.status === 200) {
+      // If status is 200, return list of courses
       const courses = await response.json();
       return courses
     }
-    // If there is a problem creating the user, return the data
-    // Which will be the error data
+    // If there is a problem retrieving the courses, return the error data
     else if (response.status !== 200) {
       return response.json().then(data => data);
     }
@@ -151,15 +146,14 @@ export default class Data {
   }
 
   async getCourse(id) {
-    // await the results returned from the api method 
     const response = await this.api(`/api/courses/${id}`, 'GET', null, false);
-    // If user is created and a 201 status is set, return empty array
+    // Send GET request to API to retrieve data for an individual course
     if (response.status === 200) {
+      // If status is 200, return list course data
       const course = await response.json();
       return course
     }
-    // If there is a problem creating the user, return the data
-    // Which will be the error data
+    // If there is a problem retrieving the courses, return the error data
     else if (response.status !== 200) {
       return response.json().then(data => data);
     }

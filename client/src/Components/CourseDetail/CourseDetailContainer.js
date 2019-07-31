@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
+// CourseDetailContainer Component receives props from CourseDetail and renders the jsx
 
 const CourseDetailContainer = props => {
     return (

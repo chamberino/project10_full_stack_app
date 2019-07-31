@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 /* 
-  This component receives its props from CoursesContainer
+  Course component receives props from CoursesContainer
   The props passed down in CoursesContainer from Courses is mapped over returning 
-  this Course component for each course in the courses array returned from the courses API
+  this Course component for each course in the courses array returned from the API
 */
 
 const Course = props => (

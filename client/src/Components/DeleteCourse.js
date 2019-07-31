@@ -16,7 +16,8 @@ export default class DeleteCourseWithContext extends Component {
   }
 
   componentDidMount() {
-    this.deleteCourse()
+    // Make a DELETE request to the API and return user to the list of courses.
+    this.deleteCourse(this.state.courseId, this.state.credentials)
       .then(() => {
         this.props.history.push('/');
       }).catch(()=>{
@@ -25,7 +26,7 @@ export default class DeleteCourseWithContext extends Component {
     })
   }
 
-  deleteCourse = async () => {
+  deleteCourse = async () => {    
     await this.state.deleteCourse(this.state.courseId, this.state.credentials)
   }
 

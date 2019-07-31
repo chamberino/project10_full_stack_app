@@ -10,17 +10,12 @@ This component also renders a "Cancel" button that returns the user to
 the "Course Detail" screen. 
 */
 
-/* pass props to UpdateCourse Component from Course */
-
 export default class UpdateCourse extends Component {
 
 constructor(props) {
     // Super allows us to use the keyword 'this' inside the constructor within the context of the app class
         super();
-        // {/* this.state is going to be the gif data we want to display */}
         this.state= {
-        // preservedTitle: props.course.title, 
-        // preservedDescription: props.course.description,
         cancelURL: props.cancelURL,    
         match: props.match,
         courseId: props.match.params.id,         
@@ -28,10 +23,6 @@ constructor(props) {
         courseURL: props.match.url,
         loading: true,
         searchText: '',
-        // title: props.course.title,
-        // description: props.course.description,
-        // estimatedTime: props.course.estimatedTime,
-        // materialsNeeded: props.course.materialsNeeded,
         errors: [],
         };
     }
@@ -57,7 +48,7 @@ constructor(props) {
         }
       }).then(()=>{
         if(this.props.context.authenticatedUser.user.id !== this.state.courseCreatorId) {
-          // Check CourseCreatorId against Authenticated User's id to verify permission to page.
+          // Check CourseCreatorId against Authenticated User's id to verify permission to access page.
           this.props.history.push('/unauthorized')
         } else {
           this.props.context.actions.getAuthor(this.state.courseCreatorId)
@@ -188,10 +179,7 @@ constructor(props) {
     // {/* initialize context variable containing the context props  */}
     const { context } = this.props;
     const courseId = this.state.courseId
-    // The from variable passed to history.push(from) contains information 
-    // about the pathname an unauthenticated user redirected from (via this.props.location.state). 
-    // const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
-    // unpack properties from state
+    
     const { 
       title, 
       description, 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 /* 
-Stateless Component
 Header- Displays the top menu bar for the application and includes 
 buttons for signing in and signing up (if there's not an authenticated user) 
 or the user's first and last name and a button for signing out 
@@ -19,10 +18,10 @@ export default class Header extends React.PureComponent {
     return (
       <div className="header">
         <div className="bounds">
-          {/* <h1><Link className="header--logo" to="/courses">Courses</Link></h1> */}
 
           <Link to="/courses"><h1 className="header--logo">Courses</h1></Link>
           <nav>
+          {/* Ternary operator checks if authenticatedUser is set in props */}
             {context.authenticatedUser ? (
               <React.Fragment>
                 <span>Welcome, {context.authenticatedUser.user.fullName}!</span>
