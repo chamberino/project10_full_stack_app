@@ -39,7 +39,8 @@ export class Provider extends Component {
         update: this.update,
         delete: this.DeleteCourse,
         getCourses: this.getCourses,
-        getCourse: this.getCourse
+        getCourse: this.getCourse,
+        getAuthor: this.getAuthor
       },
     };
     return (
@@ -47,10 +48,6 @@ export class Provider extends Component {
         {this.props.children}
       </Context.Provider>  
     );
-  }
-
-  componentDidMount() {
-
   }
 
   // retrieve a registered user's credentials from the server
@@ -88,9 +85,14 @@ export class Provider extends Component {
     Cookies.remove('authenticatedUser')
   }
 
+  getAuthor = async (id) => {
+    const user = await this.data.getAuthor(id);
+    return user;
+  }
+
   upDateCourse = async (title, description, estimatedTime=null, materialsNeeded=null, courseId) => {
     const update = await this.data.upDate(title, description, estimatedTime, materialsNeeded, courseId);
-    return update
+    return update;
   }
 
   CreateCourse = async (title, description, estimatedTime=null, materialsNeeded=null) => {

@@ -23,15 +23,6 @@ const CourseDetailContainerWithContext = withContext(CourseDetailContainer);
   once the data loads and the component is able to mount
 */
 
-/* 
-  CourseDetail - This component provides the "Course Detail" screen by 
-  retrieving the detail for a course from the REST API's /api/courses/:id 
-  route and rendering the course. The component also renders a "Delete Course" 
-  button that when clicked should send a DELETE request to the REST API's /api/courses/:id 
-  route in order to delete a course. This component also renders an "Update Course" button 
-  for navigating to the "Update Course" screen.
-*/
-
 export default class CourseDetail extends Component {
   // Constructor initializes state //
   
@@ -42,10 +33,11 @@ export default class CourseDetail extends Component {
     this.state= {
       id: props.match.params.id,
       course: {},
+      courseCreator: '',
       courseURL: props.match.url,
       loading: true,
       authenticatedUser: {},
-      context: props.context.actions.delete
+      getAuthor: props.context.actions.getAuthor
     };
   }
 
@@ -59,22 +51,47 @@ export default class CourseDetail extends Component {
       .then(course=>{
         if (course.errorStatus) {
           this.props.history.push(`/not-found`);
-        } else {
+        } else {         
           this.setState({
             courseCreatorId: course.id,
             course: course,
             loading: false,
             jsx: <Route exact path="/courses/:id" render= {({match})=> 
               <CourseDetailContainerWithContext 
-                courseCreatorId={this.state.courseCreatorId} 
+                courseCreator={this.state.courseCreator} 
                 authenticatedUserId={this.state.authenticatedUser} 
                 course={this.state.course} 
                 updateLink={this.state.courseURL} 
                 match={match}/> } /> 
           })
         }
-      }).catch((error) => {
+      }).then(()=>{
+        this.state.getAuthor(this.state.course.userId)
+          .then((user)=>{
+            if (!user.firstName) {
+              this.setState({
+                courseCreator: 'Unknown Author',
+              })
+              return null;
+            } else {
+            this.setState({
+              courseCreator: `${user.firstName} ${user.lastName}`,
+              jsx: <Route exact path="/courses/:id" render= {({match})=> 
+              <CourseDetailContainerWithContext 
+                courseCreator={this.state.courseCreator} 
+                authenticatedUserId={this.state.authenticatedUser} 
+                course={this.state.course} 
+                updateLink={this.state.courseURL} 
+                match={match}/> } /> 
+            })
+            }
+          }).catch(()=>{
+            // catch errors and push new route to History object
+            this.props.history.push('/error');
+          })        
+      }).catch(() => {
         // catch errors and push new route to History object
+        console.log()
         this.props.history.push('/error');
       })
   }

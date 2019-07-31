@@ -22,17 +22,20 @@ export default class CreateCourseWithContext extends Component {
   estimatedTime: '',
   materialsNeeded: '',
   errors: [],
-  searchText: ''
+  searchText: '',
+  user: props.context.authenticatedUser.user.fullName
   };
 }
 
   render() {
+    console.log(this.state)
     const {
       title,
       description,
       estimatedTime,
       materialsNeeded,
       errors,
+      user
     } = this.state;
 
     return (
@@ -59,10 +62,9 @@ export default class CreateCourseWithContext extends Component {
                     onChange={this.change} 
                     placeholder="Course title..." 
                     value={title}
-                    // defaultValue
                      />
                 </div>
-                <p>By Joe Smith</p>
+                <p>By {user}</p>
               </div>
               <div className="course--description">
                 <div>
@@ -71,7 +73,6 @@ export default class CreateCourseWithContext extends Component {
                     name="description" 
                     className="" 
                     placeholder="Course description..." 
-                    // defaultValue={""} 
                     value={description}
                     onChange={this.change} 
                     />
@@ -102,7 +103,6 @@ export default class CreateCourseWithContext extends Component {
                         name="materialsNeeded" 
                         placeholder="List materials..." 
                         onChange={this.change} 
-                        // defaultValue={""} 
                         value={materialsNeeded}
                         />
                     </div>
@@ -166,7 +166,6 @@ export default class CreateCourseWithContext extends Component {
       } else {
         this.setState({ errors: response });
         this.setState({title: title, description: description, estimatedTime: estimatedTime, materialsNeeded: materialsNeeded});
-        // this.props.history.push(`/courses/${response.data.id}`);
         this.props.history.push(`/courses/`);
         return response
       }

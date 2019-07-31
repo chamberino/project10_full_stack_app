@@ -100,7 +100,6 @@ constructor(props) {
                         value={title}
                         className="input-title course--title--input" 
                         placeholder={title}  
-                        // defaultValue={title}
                         onChange={this.change}
                         />
                     </div>
@@ -114,7 +113,6 @@ constructor(props) {
                         value={description}
                         className="" 
                         placeholder={description} 
-                        // defaultValue={description}
                         onChange={this.change} />
                     </div>
                   </div>
@@ -132,7 +130,6 @@ constructor(props) {
                             value={estimatedTime}
                             className="course--time--input" 
                             placeholder={estimatedTime} 
-                            // defaultValue={estimatedTime}
                             onChange={this.change} />
                         </div>
                       </li>
@@ -145,7 +142,6 @@ constructor(props) {
                             value={materialsNeeded}
                             className="" 
                             placeholder={materialsNeeded} 
-                            // defaultValue={materialsNeeded} 
                             onChange={this.change}
                             />
                         </div>

@@ -4,7 +4,6 @@ import ReactMarkdown from 'react-markdown';
 
 
 const CourseDetailContainer = props => {
-        
     return (
         <div>
             {/* check userId against authenticated UsersId to determine if edit buttons display*/}
@@ -34,7 +33,7 @@ const CourseDetailContainer = props => {
                 <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <h3 className="course--title">{props.course.title}</h3>
-                <p>By Joe Smith</p>
+                <p>By {props.courseCreator}</p>
                 </div>
                 <div className="course--description">
                 <ReactMarkdown source={props.course.description} />
@@ -44,10 +43,11 @@ const CourseDetailContainer = props => {
                 <div className="course--stats">
                 <ul className="course--stats--list">
                     <li className="course--stats--list--item">
-                    <h4>Estimated Time</h4>
-                    <h3>{props.course.estimatedTime}</h3>
+                        <h4>Estimated Time</h4>
+                        <h3>{props.course.estimatedTime}</h3>
                     </li>
                     <li className="course--stats--list--item">
+                        <h4>Materials Needed</h4>
                     <ReactMarkdown source={props.course.materialsNeeded} />
                     </li>
                 </ul>

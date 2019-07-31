@@ -52,7 +52,7 @@ export default class UserSignIn extends Component {
         </div>      
         <div className="grid-33 centered signin new">
             <p className="test">
-            Don't have a user account? <Link to="/signin">Click here</Link> to sign up!
+            Don't have a user account? <Link to="/signup">Click here</Link> to sign up!
           </p>
           </div>
       </div>

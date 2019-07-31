@@ -54,7 +54,7 @@ export default class App extends Component {
       <div>
       <BrowserRouter>
         <HeaderWithContext />
-        <Switch>
+        <Switch>        
           <Route exact path="/" render={ () => <Redirect to="/courses/" /> } />
           <PrivateRoute path="/authenticated" component={AuthWithContext} />
 

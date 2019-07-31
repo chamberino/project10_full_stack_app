@@ -16,7 +16,13 @@ export default class DeleteCourseWithContext extends Component {
   }
 
   componentDidMount() {
-    this.deleteCourse().then(()=>{this.props.history.push('/');})
+    this.deleteCourse()
+      .then(() => {
+        this.props.history.push('/');
+      }).catch(()=>{
+      // catch errors and push new route to History object
+      this.props.history.push('/error');
+    })
   }
 
   deleteCourse = async () => {

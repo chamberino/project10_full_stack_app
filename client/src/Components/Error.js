@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NotFound = () => {
+const ErrorPage = () => {
     return (
       <div className="main-content error">
         <i className="material-icons icn-error"></i>
@@ -10,4 +10,4 @@ const NotFound = () => {
     );
 };
     
-export default NotFound;
+export default ErrorPage;

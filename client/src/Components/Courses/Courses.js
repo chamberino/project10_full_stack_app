@@ -38,6 +38,9 @@ export default class Courses extends Component {
           courses: courses,
           loading: false
         })
+      }).catch(()=>{
+        // catch errors and push new route to History object
+        this.props.history.push('/error');
       })
   }
 

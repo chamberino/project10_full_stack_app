@@ -18,6 +18,31 @@ router.get('/', authenticateUser, (req, res) => {
     res.status(200).json(req.currentUser);
   });
 
+  router.get('/:id', (req, res, next) => {
+    User.findByPk(req.params.id, {
+        attributes: [
+            'firstName',
+            'lastName'
+        ]
+      })
+    .then((user)=>{
+        if (user) {
+    // Set status and return currently authenticated User
+            res.status(200).json(user);
+        } else {
+            res.status(400);
+            const errorMessages = [];
+            errorMessages.push("Unknown Author");
+            return res.json(errorMessages);
+        }
+  }).catch((error) => {
+        // catch any other errors and pass errors to global error handler
+        next(error);
+  })
+})
+
+
+
 // Post user route
 // Use express-validation middleware to check incoming data
 router.post('/', [

@@ -48,6 +48,19 @@ export default class Data {
     }
   }
 
+  async getAuthor(id) {
+    const response = await this.api(`/api/users/${id}`, 'GET', null, false);
+    if (response.status === 200) {
+      return response.json().then(data => data);
+    }
+    else if (response.status === 401) {
+      return null;
+    }
+    else {
+      throw new Error();
+    }
+  }
+
   async update(coursePayload, courseId, credentials) {
     // await the results returned from the api method 
     const response = await this.api(`/api/courses/${courseId}`, 'PUT', coursePayload, true, credentials);
@@ -154,9 +167,7 @@ export default class Data {
       throw new Error();
     }
   }
-
-
-
+  
 }
 
 
