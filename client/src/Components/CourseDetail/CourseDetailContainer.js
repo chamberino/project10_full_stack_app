@@ -14,9 +14,9 @@ const CourseDetailContainer = props => {
                 <div className="bounds">
                     <div className="grid-100">
                         <span>
-                            <Link className="button" to={`${props.match.url}/update-course`}>Update Course</Link>
+                            <Link className="button" to={`${props.match.url}/update`}>Update Course</Link>
                         </span>
-                    <Link className="button" to={`/courses/${props.course.id}/delete-course`}>Delete Course</Link>
+                    <Link className="button" to={`/courses/${props.course.id}/delete`}>Delete Course</Link>
                     <Link className="button button-secondary" to="/courses">Return to List</Link>
                 </div>
             </div>

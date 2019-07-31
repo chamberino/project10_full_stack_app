@@ -52,7 +52,7 @@ export default class CourseDetail extends Component {
       .then(course=>{
         // check for errors
         if (course.errorStatus) {
-          this.props.history.push(`/not-found`);
+          this.props.history.push(`/notfound`);
         } else {         
           // Set state with the fetched course data, change the loading property to false, set the jsx property
           // to containe the value of the CourseDetailContainer and pass along the necessary props to display course data.
@@ -95,7 +95,7 @@ export default class CourseDetail extends Component {
             }
           }).catch(()=>{
             // catch errors and push new route to History object
-            this.props.history.push(`/not-found`);
+            this.props.history.push(`/notfound`);
           })        
       }).catch(() => {
         // catch errors and push new route to History object

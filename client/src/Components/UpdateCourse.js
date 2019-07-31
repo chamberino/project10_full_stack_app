@@ -24,6 +24,7 @@ constructor(props) {
         loading: true,
         searchText: '',
         errors: [],
+        foundCourse: false
         };
     }
 
@@ -31,7 +32,8 @@ constructor(props) {
     this.props.context.actions.getCourse(this.state.courseId)
       .then(course=>{
           if (course.errorStatus) {
-            this.props.history.push(`/not-found`);
+            this.props.history.push(`/notfound`);
+            return null;
           } else {
           this.setState({
             title: course.title,
@@ -43,13 +45,17 @@ constructor(props) {
             courseCreatorId: course.userId,
             course: course,
             loading: false,
+            foundCourse: true,
             errors: []
           })
         }
       }).then(()=>{
-        if(this.props.context.authenticatedUser.user.id !== this.state.courseCreatorId) {
+        if (!this.state.foundCourse) {
+          this.props.history.push(`/notfound`);
+          return null;
+        } else if (this.props.context.authenticatedUser.user.id !== this.state.courseCreatorId) {
           // Check CourseCreatorId against Authenticated User's id to verify permission to access page.
-          this.props.history.push('/unauthorized')
+          this.props.history.push('/forbidden')
         } else {
           this.props.context.actions.getAuthor(this.state.courseCreatorId)
           .then((user)=>{
@@ -69,7 +75,6 @@ constructor(props) {
           }) 
         }
       }).catch((error) => {
-        // catch errors and push new route to History object
         this.props.history.push('/error');
       })
   }
