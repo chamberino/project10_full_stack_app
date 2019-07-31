@@ -47,7 +47,7 @@ export default class Courses extends Component {
   render() {
 
     return (         
-      <div>
+      <div className="course-list-container">
       <Switch>
       {
         (this.state.loading)

@@ -12,7 +12,7 @@ const CourseContainer = (props) => {
       return <Course title={result.title} id={result.id} key={result.id}/>
     });
     return(
-        <div>
+        <div className="course-list">
             {courses}
         </div>
     ); 

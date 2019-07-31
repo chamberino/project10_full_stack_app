@@ -28,7 +28,6 @@ export default class CreateCourseWithContext extends Component {
 }
 
   render() {
-    console.log(this.state)
     const {
       title,
       description,

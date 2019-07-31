@@ -59,6 +59,23 @@ constructor(props) {
         if(this.props.context.authenticatedUser.user.id !== this.state.courseCreatorId) {
           // Check CourseCreatorId against Authenticated User's id to verify permission to page.
           this.props.history.push('/unauthorized')
+        } else {
+          this.props.context.actions.getAuthor(this.state.courseCreatorId)
+          .then((user)=>{
+            if (!user.firstName) {
+              this.setState({
+                courseCreator: 'Unknown Author',
+              })
+              return null;
+            } else {
+            this.setState({
+              courseCreator: `${user.firstName} ${user.lastName}`,
+            })
+            }
+          }).catch(()=>{
+            // catch errors and push new route to History object
+            this.props.history.push('/error');
+          }) 
         }
       }).catch((error) => {
         // catch errors and push new route to History object
@@ -103,7 +120,7 @@ constructor(props) {
                         onChange={this.change}
                         />
                     </div>
-                    <p>By Change Name</p>
+                    <p>By {this.state.courseCreator}</p>
                   </div>
                   <div className="course--description">
                     <div>

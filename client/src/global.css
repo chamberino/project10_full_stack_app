@@ -216,7 +216,8 @@ body {
 
 /* line 13, ../sass/global.sass */
 .header {
-  background: #57496e;
+  /* background: #57496e; */
+  background: #5FD080;
   padding: 20px 0;
   margin-bottom: 30px;
 }
@@ -255,12 +256,15 @@ body {
 }
 /* line 37, ../sass/global.sass */
 .header nav a {
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
+  color: #fff;
   margin-left: 20px;
 }
 /* line 40, ../sass/global.sass */
 .header nav a:hover {
-  color: #fff;
+  /* color: #fff; */
+  color: #e6e3e3;
+
 }
 
 /* line 44, ../sass/global.sass */
@@ -292,7 +296,8 @@ h1 {
 
 /* line 61, ../sass/global.sass */
 a {
-  color: #7c689b;
+  /* color: #7c689b; */
+
   cursor: pointer;
   text-decoration: none;
   -webkit-transition: color 0.2s;
@@ -349,7 +354,8 @@ p {
 
 /* line 102, ../sass/global.sass */
 .course--module {
-  background: #7c689b;
+  /* background: #7c689b; */
+  background: #5FD080;
   border-radius: 8px;
   /* padding: 30px; */
   text-align: center;
@@ -402,11 +408,13 @@ p {
 }
 /* line 137, ../sass/global.sass */
 .course--add--module:hover .course--add--title {
-  color: #444;
+  /* color: #444; */
+  color: rgb(80, 179, 110);
 }
 /* line 139, ../sass/global.sass */
 .course--add--module:hover .add {
-  fill: #444;
+  /* fill: #444; */
+  fill: rgb(80, 179, 110);
 }
 /* line 141, ../sass/global.sass */
 .course--add--title {
@@ -431,6 +439,7 @@ p {
 /* line 159, ../sass/global.sass */
 .course--detail {
   margin-top: 60px;
+  padding: 0 1em;
 }
 /* line 162, ../sass/global.sass */
 .course--header {
@@ -689,7 +698,8 @@ input:focus {
 
 /* line 507, ../sass/global.sass */
 .button {
-  background: #7c689b;
+  /* background: #7c689b; */
+  background: #5FD080;
   color: #fff;
   font-family: "Work Sans", sans-serif;
   font-size: 18px;
@@ -712,14 +722,17 @@ input:focus {
 }
 /* line 522, ../sass/global.sass */
 .button:not(.button-secondary):hover {
-  background: #63537d;
+  /* background: #63537d; */
+  background: rgb(80, 179, 110);
 }
 
 /* line 525, ../sass/global.sass */
 .button-secondary {
-  color: #7c689b;
+  /* color: #7c689b; */
+  color: #5FD080;
   background: none;
-  box-shadow: 0 0 0 2px #7c689b inset;
+  /* box-shadow: 0 0 0 2px #7c689b inset; */
+  box-shadow: 0 0 0 2px #5FD080 inset;
   -webkit-transition: box-shadow 0.2s, color 0.2s;
   -moz-transition: box-shadow 0.2s, color 0.2s;
   -ms-transition: box-shadow 0.2s, color 0.2s;
@@ -728,8 +741,11 @@ input:focus {
 }
 /* line 530, ../sass/global.sass */
 .button-secondary:hover {
-  color: #63537d;
-  box-shadow: 0 0 0 2px #63537d inset;
+  /* color: #63537d; */
+  color: rgb(80, 179, 110);
+  /* box-shadow: 0 0 0 2px #63537d inset; */
+  box-shadow: 0 0 0 2px rgb(80, 179, 110) inset;
+
 }
 
 /* adds additional padding to the bottom of an element */
@@ -759,21 +775,13 @@ input:focus {
   padding-bottom: 100px;
 }
 
-.form-buttons {
-  display: flex;
-  width: 200px;
-}
-
 .sign-in-up {
   width: 33%;
 }
 
 .test {
   display: block;
-  /* width: 400px; */
   text-align: center;
-  padding-top: 4em;
-  /* margin: auto; */
 }
 
 /* added additional class name for header elements */
@@ -803,7 +811,87 @@ input:focus {
 }
 
 @media only screen and (max-width: 720px) {
+  .grid-33 {
+    width: 100%;
+  }
+
+  .grid, .grid-25, .grid-33, .grid-66, .grid-100 {
+    float: none;
+  }
+
+  .grid-66, .grid-25 {
+    width: 100%;
+  }
+
+  .course-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .course-list-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .course--stats--list {
+    padding: 0;
+  }
+
+  .form-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .grid-100 {
+    display: flex;
+  }
+
+  .test {
+    padding: 0 4em;
+    margin: auto;
+  }
+
+  .sign-in {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 720px) {
   .sign-in-up {
     width: 66%;
+  }
+}
+
+@media only screen and (min-width: 720px) {
+  .test {
+    padding-top: 4em;
+  }
+
+  .button {
+    /* width: 400px; */
+  }
+
+  .pad-bottom .form-buttons .grid-66 {
+    
+  }
+
+  .form-buttons {
+    display: flex;
+  }
+
+  .grid, .grid-25,  .grid-66 {
+    padding: 0;
+  }
+
+  .form-buttons {
+    padding-bottom: 2em;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .grid-25 {
+      width: 33%;
+    }
   }
 }
